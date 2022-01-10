@@ -39,11 +39,16 @@ export class Registration extends Component {
             body: JSON.stringify(this.state),
         })
             .then((data) => data.json())
-            .then((data) =>
-                console.log("response data from /register.json:", data)
-            )
-            //depending on whetehr or not we recieve a successful server response
-            //we want to render an errror state
+            .then((data) => {
+                console.log("response data from /register.json:", data.success);
+                if (data.success === true) {
+                    location.reload();
+                } else {
+                    this.setState({
+                        error: "Error appeared during registration",
+                    });
+                }
+            })
             .catch(
                 (err) => console.log("err in fetch /register.json", err)
                 //we want to render an error state meaning we want to setState and pass to it
@@ -53,7 +58,7 @@ export class Registration extends Component {
     render() {
         return (
             <>
-                <h1>Registration</h1>
+                <h2>Fill the Registration Form</h2>
 
                 {this.state.error && (
                     <h2 style={{ color: "red" }}>{this.state.error}</h2>
