@@ -17,7 +17,6 @@ app.use(
 
 app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
-
 app.use(express.json());
 
 //any routes that we are adding where the client is requesting or sending over
@@ -51,6 +50,35 @@ app.post("/register.json", (req, res) => {
         .catch((err) => {
             console.log("err in hash", err);
         });
+});
+
+app.post("/login.json", (req, res) => {
+    console.log("body:", req.body);
+    const { email, password } = req.body;
+    console.log("email:[0],password:[1]", req.body.email, req.body.password);
+    if (email && password) {
+        db.getUserByEmail(email)
+            .then(({ rows }) => {
+                console.log("rows[0]:", rows[0].password);
+                const hashedDbPswd = rows[0].password;
+                compare(password, hashedDbPswd).then((match) => {
+                    console.log(
+                        "do provided PW and db stored hashedPassword match?",
+                        match
+                    );
+                    if (match === true) {
+                        req.session.userId = rows[0].id;
+                        console.log("cookie id:", req.session.userId);
+                        res.json({ success: true });
+                    } else res.json({ success: false });
+                });
+            })
+            .catch((err) => {
+                console.log("err in compare", err);
+            });
+    } else {
+        res.json({ success: false });
+    }
 });
 
 app.get("/user/id.json", function (req, res) {

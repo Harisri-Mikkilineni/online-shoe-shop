@@ -15,3 +15,33 @@ module.exports.addUsers = (firstName, lastName, email, hashedPw) => {
     const params = [firstName, lastName, email, hashedPw];
     return db.query(q, params);
 };
+
+module.exports.getUserByEmail = (email) => {
+    const q = `SELECT *
+     FROM users
+     WHERE users.email = $1`;
+    const params = [email];
+    return db.query(q, params);
+};
+
+module.exports.addResetPwCode = (code, email) => {
+    const q = `INSERT INTO password_reset_codes (code,email)
+    VALUES($1, $2) RETURNING code`;
+    const params = [code, email];
+    return db.query(q, params);
+};
+
+module.exports.getResetPwCode = () => {
+    const q = `SELECT * 
+     FROM password_reset_codes
+      WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'`;
+    return db.query(q);
+};
+
+module.exports.updateUserPw = (email, password) => {
+    const q = `UPDATE users
+    SET email=$1, password=$2
+    WHERE users.id = $4`;
+    const params = [email, password];
+    return db.query(q, params);
+};

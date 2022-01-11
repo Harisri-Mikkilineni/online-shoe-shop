@@ -1,17 +1,17 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 
-export class Registration extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             error: "",
         };
-        //to not cause cannot read setState of undefined errors, you need to bind the value of "this"
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
     }
     componentDidMount() {
-        console.log("Registration just mounted");
+        console.log("Login just mounted");
     }
 
     handleChange({ target }) {
@@ -27,12 +27,10 @@ export class Registration extends Component {
         );
     }
 
-    handleSubmit(e) {
+    handleLogin(e) {
         e.preventDefault();
-        console.log("user wants to submit their details", this.state);
-        //we now want to send user's data to the server
-        //we use fetch post
-        fetch("/register.json", {
+        console.log("user wants to login", this.state);
+        fetch("/login.json", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,37 +44,22 @@ export class Registration extends Component {
                     location.reload();
                 } else {
                     this.setState({
-                        error: "Error appeared during registration",
+                        error: "Error appeared during Login",
                     });
                 }
             })
-            .catch(
-                (err) => console.log("err in fetch /register.json", err)
-                //we want to render an error state meaning we want to setState and pass to it
-                //an Object containing an error property and some value
-            );
+            .catch((err) => console.log("err in fetch /login.json", err));
     }
     render() {
         return (
             <>
-                <h2>Fill the Registration Form</h2>
+                <h1>Login Page</h1>
 
                 {this.state.error && (
                     <h2 style={{ color: "red" }}>{this.state.error}</h2>
                 )}
+
                 <form>
-                    <input
-                        name="first"
-                        placeholder="First Name"
-                        type="text"
-                        onChange={this.handleChange}
-                    />
-                    <input
-                        name="last"
-                        placeholder="Last Name"
-                        type="text"
-                        onChange={this.handleChange}
-                    />
                     <input
                         name="email"
                         placeholder="your@email.come"
@@ -89,9 +72,17 @@ export class Registration extends Component {
                         type="password"
                         onChange={this.handleChange}
                     />
-                    <button onClick={this.handleSubmit}>Register</button>
+
+                    <div>
+                        <Link to="/resetPassword">Reset Password</Link>
+                    </div>
+                    <div>
+                        <button onClick={this.handleLogin}>Login</button>
+                    </div>
                 </form>
             </>
         );
     }
 }
+
+export default Login;
