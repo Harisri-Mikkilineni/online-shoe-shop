@@ -8,16 +8,13 @@ class ResetPassword extends Component {
             stage: 1,
         };
         this.handleChange = this.handleChange.bind(this);
+        this.resetUserStart = this.resetUserStart.bind(this);
+        this.resetUserConfirm = this.resetUserConfirm.bind(this);
     }
     componentDidMount() {
         console.log("Reset Password just mounted");
     }
 
-    incrementState() {
-        this.setState({
-            stage: this.state.stage + 1,
-        });
-    }
     handleChange({ target }) {
         console.log("input value changed");
         console.log("value typed:", target.value);
@@ -31,25 +28,101 @@ class ResetPassword extends Component {
         );
     }
 
+    resetUserStart(e) {
+        e.preventDefault();
+        console.log("user wants to submit email address", this.state);
+
+        //we now want to send user's data to the server
+        //we use fetch post
+        fetch("/password/reset/start.json", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(this.state),
+        })
+            .then((data) => data.json())
+            .then((data) => {
+                console.log(
+                    "response data from /password/reset/start.json:",
+                    data.success
+                );
+                if (data.success === true) {
+                    this.setState({
+                        stage: this.state.stage + 1,
+                    });
+                } else {
+                    this.setState({
+                        error: "Error appeared during reset password stage 1",
+                    });
+                }
+            })
+            .catch(
+                (err) =>
+                    console.log("err in fetch /password/reset/start.json", err)
+                //we want to render an error state meaning we want to setState and pass to it
+                //an Object containing an error property and some value
+            );
+    }
+
+    resetUserConfirm(e) {
+        e.preventDefault();
+        console.log("user wants to verify code", this.state);
+        //we now want to send user's data to the server
+        //we use fetch post
+        fetch("/password/reset/confirm.json", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(this.state),
+        })
+            .then((data) => data.json())
+            .then((data) => {
+                console.log(
+                    "response data from /password/reset/confirm.json:",
+                    data.success
+                );
+                if (data.success === true) {
+                    this.setState({
+                        stage: this.state.stage + 1,
+                    });
+                } else {
+                    this.setState({
+                        error: "Error appeared during reset password stage 2",
+                    });
+                }
+            })
+            .catch(
+                (err) =>
+                    console.log(
+                        "err in fetch /password/reset/confirm.json",
+                        err
+                    )
+                //we want to render an error state meaning we want to setState and pass to it
+                //an Object containing an error property and some value
+            );
+    }
+
     renderStage() {
         if (this.state.stage === 1) {
             return (
-                <form>
+                <form onSubmit={() => this.resetUserStart()}>
                     <input
+                        key="1"
                         name="email"
-                        placeholder="your@email.come"
+                        placeholder="your@email.com"
                         type="email"
                         onChange={this.handleChange}
                     />
-                    <button onClick={() => this.incrementState()}>
-                        Submit
-                    </button>
+                    <button>Submit</button>
                 </form>
             );
         } else if (this.state.stage === 2) {
             return (
-                <form>
+                <form onSubmit={() => this.resetUserConfirm()}>
                     <input
+                        key="2"
                         name="code"
                         placeholder="code"
                         type="text"
@@ -61,9 +134,7 @@ class ResetPassword extends Component {
                         type="password"
                         onChange={this.handleChange}
                     />
-                    <button onClick={() => this.incrementState()}>
-                        Submit
-                    </button>
+                    <button>Submit</button>
                 </form>
             );
         } else if (this.state.stage === 3) {

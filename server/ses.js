@@ -1,30 +1,36 @@
 const aws = require("aws-sdk");
-const { AWS_KEY, AWS_SECRET } = require("./secrets.json");
-const ses = new aws.SES({
-    accessKeyId: AWS_KEY,
-    secretAccessKey: AWS_SECRET,
-    region: "eu-west-1",
-});
-module.exports.sendEmail = function (subject, body, recipient) {
-    return ses
-        .sendEmail({
-            Source: "Harisri <harisri.mikkilineni@gmail.com>",
-            Destination: {
-                ToAddresses: ["harisri.mikkilineni@gmail.com"],
-            },
-            Message: {
-                Body: {
-                    Text: {
-                        Data: "Dear User, the code to retrieve your email account is:",
+
+module.exports.sendEmail = (subject, body, recipient) => {
+    let secrets;
+    if (process.env.NODE_ENV == "production") {
+        secrets = process.env; // in prod the secrets are environment variables
+    } else {
+        secrets = require("./secrets"); // in dev they are in secrets.json which is listed in .gitignore
+        const ses = new aws.SES({
+            accessKeyId: secrets.AWS_KEY,
+            secretAccessKey: secrets.AWS_SECRET,
+            region: "eu-central-1",
+        });
+
+        return ses
+            .sendEmail({
+                Source: "Harisri <harisri.mikkilineni@gmail.com>",
+                Destination: {
+                    ToAddresses: [recipient],
+                },
+                Message: {
+                    Body: {
+                        Text: {
+                            Data: body,
+                        },
+                    },
+                    Subject: {
+                        Data: subject,
                     },
                 },
-                Subject: {
-                    Data: "Recovering password",
-                },
-            },
-        })
-        .promise()
-        .then(() => console.log("Email delivery successful"))
-        .catch((err) => console.log(err));
+            })
+            .promise()
+            .then(() => console.log("Email delivery successful!"))
+            .catch((err) => console.log(err));
+    }
 };
-// module.exports.sendEmail();

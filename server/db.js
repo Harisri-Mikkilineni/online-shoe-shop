@@ -24,10 +24,10 @@ module.exports.getUserByEmail = (email) => {
     return db.query(q, params);
 };
 
-module.exports.addResetPwCode = (code, email) => {
-    const q = `INSERT INTO password_reset_codes (code,email)
+module.exports.addResetPwCode = (email, code) => {
+    const q = `INSERT INTO password_reset_codes (email, code)
     VALUES($1, $2) RETURNING code`;
-    const params = [code, email];
+    const params = [email, code];
     return db.query(q, params);
 };
 
