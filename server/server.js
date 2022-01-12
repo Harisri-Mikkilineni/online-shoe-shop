@@ -98,26 +98,22 @@ app.post("/password/reset/start.json", (req, res) => {
         .then(({ rows }) => {
             console.log("rows[0]:", rows[0].email);
             const userEmail = rows[0].email;
-            compare(email, userEmail).then((match) => {
-                console.log(
-                    "do provided Email and db stored Email match?",
-                    match
-                );
-                if (match === true) {
-                    const randomString = cryptoRandomString({
-                        length: 6,
-                    });
-                    db.addResetPwCode(email, randomString).then(({ rows }) => {
-                        console.log("code rows[0]:", rows[0].code);
-                        const subject = "Reset your password";
-                        const body = `Here is your new code: ${randomString}`;
-                        const recipient = "harisri.mikkilineni@gmail.com";
-                        sendEmail(subject, body, recipient);
-                        res.status(200).json();
-                    });
-                    res.json({ success: true });
-                } else res.json({ success: false });
-            });
+
+            if (email === userEmail) {
+                console.log("provided Email and db stored Email matched");
+                const randomString = cryptoRandomString({
+                    length: 6,
+                });
+                db.addResetPwCode(email, randomString).then(({ rows }) => {
+                    console.log("code rows[0]:", rows[0].code);
+                    const subject = "Reset your password";
+                    const body = `Here is your new code: ${randomString}`;
+                    const recipient = "harisri.mikkilineni@gmail.com";
+                    sendEmail(subject, body, recipient);
+                    res.status(200).json();
+                });
+                res.json({ success: true });
+            } else res.json({ success: false });
         })
         .catch((err) => {
             console.log("Email doesn't match", err);
@@ -126,14 +122,14 @@ app.post("/password/reset/start.json", (req, res) => {
 //POST PASSWORD RESET VERIFY ROUTE
 app.post("/password/reset/confirm.json", (req, res) => {
     console.log("body:", req.body);
-    const { email, code, password } = req.body;
+    const { email, password } = req.body;
     console.log(
         "email:[0],code:[1],password:[2]",
         req.body.email,
         req.body.code,
         req.body.password
     );
-    db.getResetPwCode(code).then(({ rows }) => {
+    db.getResetPwCode().then(({ rows }) => {
         console.log("rows:", rows);
         if (rows) {
             hash(password).then((hashedPw) => {

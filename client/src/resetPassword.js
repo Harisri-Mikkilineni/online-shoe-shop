@@ -6,6 +6,7 @@ class ResetPassword extends Component {
         super(props);
         this.state = {
             stage: 1,
+            error: "",
         };
         this.handleChange = this.handleChange.bind(this);
         this.resetUserStart = this.resetUserStart.bind(this);
@@ -31,9 +32,6 @@ class ResetPassword extends Component {
     resetUserStart(e) {
         e.preventDefault();
         console.log("user wants to submit email address", this.state);
-
-        //we now want to send user's data to the server
-        //we use fetch post
         fetch("/password/reset/start.json", {
             method: "POST",
             headers: {
@@ -107,7 +105,7 @@ class ResetPassword extends Component {
     renderStage() {
         if (this.state.stage === 1) {
             return (
-                <form onSubmit={() => this.resetUserStart()}>
+                <form onSubmit={(e) => this.resetUserStart(e)}>
                     <input
                         key="1"
                         name="email"
@@ -120,7 +118,7 @@ class ResetPassword extends Component {
             );
         } else if (this.state.stage === 2) {
             return (
-                <form onSubmit={() => this.resetUserConfirm()}>
+                <form onSubmit={(e) => this.resetUserConfirm(e)}>
                     <input
                         key="2"
                         name="code"
