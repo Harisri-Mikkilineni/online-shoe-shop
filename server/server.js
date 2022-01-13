@@ -150,6 +150,19 @@ app.post("/password/reset/confirm.json", (req, res) => {
     });
 });
 
+//GET FOR NAVIGATION
+app.get("/navigation.json", (req, res) => {
+    console.log("req session in nav:", req.session);
+    db.getUserById(req.session.userId)
+
+        .then(({ rows }) => {
+            console.log("rows in nav:", rows);
+
+            res.json(rows[0]);
+        })
+        .catch((err) => console.log("err in opening modal:", err));
+});
+
 //
 app.get("*", function (req, res) {
     console.log("I am loading here:", req.url, req.method);

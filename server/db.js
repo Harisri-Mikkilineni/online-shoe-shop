@@ -24,6 +24,14 @@ module.exports.getUserByEmail = (email) => {
     return db.query(q, params);
 };
 
+module.exports.getUserById = (id) => {
+    const q = `SELECT *
+     FROM users
+     WHERE users.id = $1`;
+    const params = [id];
+    return db.query(q, params);
+};
+
 module.exports.addResetPwCode = (email, code) => {
     const q = `INSERT INTO password_reset_codes (email, code)
     VALUES($1, $2) RETURNING code`;
@@ -43,5 +51,14 @@ module.exports.updateUserPw = (email, password) => {
     SET password=$2
     WHERE email = $1`;
     const params = [email, password];
+    return db.query(q, params);
+};
+
+module.exports.updateImage = (id, image_url) => {
+    const q = `UPDATE users
+    SET image_url=$2
+    WHERE id = $1
+    RETURNING image_url`;
+    const params = [id, image_url];
     return db.query(q, params);
 };

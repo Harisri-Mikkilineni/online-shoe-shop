@@ -4,7 +4,7 @@ export default function ProfilePic({ first, last, imageUrl, loggerFunc }) {
     return (
         <>
             <img
-                onClick={loggerFunc}
+                onClick={() => loggerFunc()}
                 src={imageUrl}
                 alt={`${first} ${last}`}
                 id="navbar-avatar"
