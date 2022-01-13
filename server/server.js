@@ -7,6 +7,8 @@ const { hash, compare } = require("./bcrypt");
 const cookieSession = require("cookie-session");
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
+const { uploader } = require("./upload");
+const s3 = require("./s3");
 
 /*=============================middleware============================*/
 app.use(
@@ -150,6 +152,28 @@ app.post("/password/reset/confirm.json", (req, res) => {
     });
 });
 
+app.post(
+    "/updateImage.json",
+    uploader.single("file"),
+    s3.upload,
+    (req, res) => {
+        const image_url = req.file.filename;
+        console.log("req.file:", req.file.filename);
+        console.log("body:", req.body);
+        const id = req.session.userId;
+        console.log(" image value:", image_url);
+        const imageUrl = "https://harisribucket.s3.amazonaws.com/" + image_url;
+        console.log("id:[0],url:[1]", id, imageUrl);
+        db.updateImage(id, imageUrl)
+            .then((data) => {
+                console.log("image rows data in update image:", data);
+                res.json(data.rows[0]);
+            })
+            .catch((err) => {
+                console.log("error in updating image to database:", err);
+            });
+    }
+);
 //GET FOR NAVIGATION
 app.get("/navigation.json", (req, res) => {
     console.log("req session in nav:", req.session);

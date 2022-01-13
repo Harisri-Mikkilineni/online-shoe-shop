@@ -1,7 +1,6 @@
 import { Component } from "react";
 import ProfilePic from "./profilePic";
 import Uploader from "./uploader";
-import ChildComponent from "./child";
 
 export default class App extends Component {
     constructor() {
@@ -12,6 +11,7 @@ export default class App extends Component {
         this.toggleUploader = this.toggleUploader.bind(this);
         this.logNameOtherStuff = this.logNameOtherStuff.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.changeImage = this.changeImage.bind(this);
     }
 
     componentDidMount() {
@@ -20,11 +20,11 @@ export default class App extends Component {
             .then((response) => response.json())
             .then((data) => {
                 console.log("data on the navigation:", data);
-                this.state({
+                this.setState({
                     id: data.id,
                     first: data.first,
                     last: data.last,
-                    url: data.url,
+                    url: data.image_url,
                     email: data.email,
                 });
             })
@@ -40,12 +40,21 @@ export default class App extends Component {
         });
     }
 
+    changeImage(image_url) {
+        console.log("my url image:", image_url);
+        this.setState({
+            uploaderIsVisible: !this.state.uploaderIsVisible,
+            url: image_url,
+        });
+    }
+
     logNameOtherStuff(val) {
         console.log(this.state.name + val);
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
+
     closeModal() {
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
@@ -57,7 +66,6 @@ export default class App extends Component {
     render() {
         return (
             <>
-                <ChildComponent />
                 <section id="mainPage">
                     <img
                         src="logo.JPG"
@@ -68,15 +76,17 @@ export default class App extends Component {
                     <ProfilePic
                         first="Harisri"
                         last="Mikkilineni"
-                        imageUrl="https://previews.123rf.com/images/rawpixel/rawpixel1504/rawpixel150405509/38967820-social-network-social-media-gesch%C3%A4ftsleute-technologie-konzept.jpg"
+                        imageUrl={this.state.url}
                         loggerFunc={this.logNameOtherStuff}
                     />
                 </section>
+
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         toggleUploader={this.toggleUploader}
                         logNameOtherStuff={this.logNameOtherStuff}
                         closeModal={this.closeModal}
+                        changeImage={this.changeImage}
                     />
                 )}
             </>
