@@ -8,9 +8,15 @@ h2 {
 form {
     display: flex;
     flex-direction: column;
-    border-radius: 10%;
     column-gap: 5px;
     align-items: center;
+}
+
+.bio_editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
 }
 login-link {
     position: absolute;

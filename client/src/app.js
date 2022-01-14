@@ -1,17 +1,23 @@
 import { Component } from "react";
 import ProfilePic from "./profilePic";
 import Uploader from "./uploader";
+import Profile from "./profile";
 
 export default class App extends Component {
     constructor() {
         super();
         this.state = {
             uploaderIsVisible: false,
+            bio: "bio",
+            first: "first",
+            last: "last",
+            url: "url",
         };
         this.toggleUploader = this.toggleUploader.bind(this);
         this.logNameOtherStuff = this.logNameOtherStuff.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.changeImage = this.changeImage.bind(this);
+        this.updateProfileBio = this.updateProfileBio.bind(this);
     }
 
     componentDidMount() {
@@ -26,6 +32,7 @@ export default class App extends Component {
                     last: data.last,
                     url: data.image_url,
                     email: data.email,
+                    bio: data.bio,
                 });
             })
             .catch((err) => {
@@ -61,8 +68,11 @@ export default class App extends Component {
         });
     }
 
-    //Make fetch request to get data for currently logged in user
-    //and store this data in the component state
+    updateProfileBio(bio) {
+        console.log("update profile Bio method:", bio);
+        this.setState({ bio: bio });
+    }
+
     render() {
         return (
             <>
@@ -74,8 +84,8 @@ export default class App extends Component {
                     />
 
                     <ProfilePic
-                        first="Harisri"
-                        last="Mikkilineni"
+                        first={this.first}
+                        last={this.last}
                         imageUrl={this.state.url}
                         loggerFunc={this.logNameOtherStuff}
                     />
@@ -89,6 +99,16 @@ export default class App extends Component {
                         changeImage={this.changeImage}
                     />
                 )}
+
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    bio={this.state.bio}
+                    imageUrl={this.state.url}
+                    toggleUploader={this.toggleUploader}
+                    loggerFunc={this.logNameOtherStuff}
+                    updateProfileBio={this.updateProfileBio}
+                />
             </>
         );
     }

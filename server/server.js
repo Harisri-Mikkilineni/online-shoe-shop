@@ -174,6 +174,22 @@ app.post(
             });
     }
 );
+//POST UPDATE BIO
+app.post("/bio.json", (req, res) => {
+    console.log("update bio req.body:", req.body);
+    console.log("body:", req.body);
+    const bio = req.body.bio;
+    const id = req.session.userId;
+    db.updateBio(id, bio)
+        .then((data) => {
+            console.log("updated bio data in db successfully", data);
+            res.json(data.rows[0]);
+        })
+        .catch((err) => {
+            console.log("error in updating bio to database:", err);
+        });
+});
+
 //GET FOR NAVIGATION
 app.get("/navigation.json", (req, res) => {
     console.log("req session in nav:", req.session);
