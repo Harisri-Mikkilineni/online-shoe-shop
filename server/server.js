@@ -166,7 +166,7 @@ app.post(
         console.log("id:[0],url:[1]", id, imageUrl);
         db.updateImage(id, imageUrl)
             .then((data) => {
-                console.log("image rows data in update image:", data);
+                console.log("image rows data in update image!");
                 res.json(data.rows[0]);
             })
             .catch((err) => {
@@ -182,11 +182,38 @@ app.post("/bio.json", (req, res) => {
     const id = req.session.userId;
     db.updateBio(id, bio)
         .then((data) => {
-            console.log("updated bio data in db successfully", data);
+            console.log("updated bio data in db successfully!");
             res.json(data.rows[0]);
         })
         .catch((err) => {
             console.log("error in updating bio to database:", err);
+        });
+});
+
+//GET FOR RECENTLY CREATED USERS
+app.get("/recentUsers", (req, res) => {
+    console.log("recently added users", req.body);
+    db.getRecentUsers(req.session.userId)
+        .then(({ rows }) => {
+            console.log("Got 3 recently added users:", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("err in getting recently added users", err);
+        });
+});
+
+// GET USER BY MATCHING NAME
+app.get("/users/:search", (req, res) => {
+    console.log("matched users", req.body);
+    //const search = req.params.search;
+    db.getUserbyMatchingName(req.params.search)
+        .then(({ rows }) => {
+            console.log("Got matched added users:", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("err in getting matched users", err);
         });
 });
 

@@ -60,7 +60,7 @@ export default class BioEditor extends Component {
         if (!this.state.bioEditMode) {
             return (
                 <>
-                    <h2>{this.props.bio}</h2>
+                    <h2 className="bio-text">{this.props.bio}</h2>
                     <h1 onClick={this.bioEditToggle}>
                         {this.props.bio ? "edit" : "add bio"}
                     </h1>

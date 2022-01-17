@@ -11,6 +11,26 @@ form {
     column-gap: 5px;
     align-items: center;
 }
+.search-pic {
+    height: 250px;
+    width: 200px;
+}
+
+.findUsers_link {
+    font-weight: bold;
+    background-color: navajowhite;
+    height: 20px;
+    width: 70px;
+}
+
+span {
+    display: flex;
+    direction: row;
+    align-items: center;
+    row-gap: 10px;
+    column-gap: 20px;
+    border: 2px solid lightslategrey;
+}
 
 .bio_editor {
     display: flex;
