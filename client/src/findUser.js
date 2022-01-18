@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function FindUser() {
     const [search, setSearch] = useState("");
@@ -20,7 +21,7 @@ export default function FindUser() {
                 })
             );
         } else {
-            fetch(`/users/${search}`)
+            fetch(`/findUsers/${search}`)
                 .then((res) => res.json())
                 .then((users) => {
                     if (!abort) {
@@ -35,7 +36,7 @@ export default function FindUser() {
     }, [search]);
 
     const imageError = (e) => {
-        e.currentTarget.setAttribute("src", "default.png");
+        e.currentTarget.setAttribute("src", "/default.png");
     };
 
     return (
@@ -45,14 +46,19 @@ export default function FindUser() {
             <span>
                 {users.map((user) => (
                     <div className="search-results" key={user.id}>
-                        <img
-                            className="search-pic"
-                            src={user.image_url}
-                            onError={imageError}
-                        />
-                        <h3 className="search-name">
-                            {user.first} {user.last}
-                        </h3>
+                        <Link
+                            className="otherUsers_link"
+                            to={`/users/${user.id}`}
+                        >
+                            <img
+                                className="search-pic"
+                                src={user.image_url}
+                                onError={imageError}
+                            />
+                            <h3 className="search-name">
+                                {user.first} {user.last}
+                            </h3>
+                        </Link>
                     </div>
                 ))}
             </span>

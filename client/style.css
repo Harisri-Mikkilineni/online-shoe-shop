@@ -94,8 +94,9 @@ login-link {
     width: 20%;
 }
 #navbar-avatar {
-    height: 20%;
-    width: 20%;
+    height: 10%;
+    width: 10%;
+    border-radius: 70%;
 }
 
 input {

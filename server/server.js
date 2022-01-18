@@ -19,6 +19,11 @@ app.use(
     })
 );
 
+app.use((req, res, next) => {
+    console.log("req.url:", req.url);
+    next();
+});
+
 app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
@@ -204,7 +209,7 @@ app.get("/recentUsers", (req, res) => {
 });
 
 // GET USER BY MATCHING NAME
-app.get("/users/:search", (req, res) => {
+app.get("/findUsers/:search", (req, res) => {
     console.log("matched users", req.body);
     //const search = req.params.search;
     db.getUserbyMatchingName(req.params.search)
@@ -214,6 +219,45 @@ app.get("/users/:search", (req, res) => {
         })
         .catch((err) => {
             console.log("err in getting matched users", err);
+        });
+});
+
+//GET USER BY ID
+app.get("/api/users/:id", (req, res) => {
+    console.log("other profile user", req.body);
+    //const search = req.params.search;
+    db.getUserById(req.params.id)
+        .then(({ rows }) => {
+            console.log("Got other profile user by id:", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("err in getting other profile user by id", err);
+        });
+});
+
+//GET USER RELATIONSHIP STATUS WITH OTHER USER
+app.get("/api/users/friendship/:id", (req, res) => {
+    console.log("other profile user", req.body);
+    const recipient_id = req.params.id;
+    const sender_id = req.session.id;
+
+    db.getFriendshipStatus(recipient_id, sender_id)
+        .then(({ rows }) => {
+            console.log("Got relationship status:", rows);
+            const data = rows[0] || null;
+            let buttonText = "Lovely Button";
+
+            if (data === null) {
+                buttonText = "Make Friend Request";
+            } else {
+                buttonText = "End Friendship";
+            }
+
+            res.json(buttonText);
+        })
+        .catch((err) => {
+            console.log("err in getting relationship status", err);
         });
 });
 

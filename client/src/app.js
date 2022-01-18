@@ -4,6 +4,7 @@ import ProfilePic from "./profilePic";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import FindUser from "./findUser";
+import OtherProfile from "./otherProfile";
 
 export default class App extends Component {
     constructor() {
@@ -120,8 +121,12 @@ export default class App extends Component {
                         />
                     </Route>
 
-                    <Route path="/users">
+                    <Route exact path="/users">
                         <FindUser />
+                    </Route>
+
+                    <Route path="/users/:id">
+                        <OtherProfile />
                     </Route>
                 </BrowserRouter>
             </>
