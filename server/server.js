@@ -237,21 +237,37 @@ app.get("/api/users/:id", (req, res) => {
 });
 
 //GET USER RELATIONSHIP STATUS WITH OTHER USER
-app.get("/api/users/friendship/:id", (req, res) => {
+app.get(`/api/users/friendship/:id`, (req, res) => {
     console.log("other profile user", req.body);
-    const recipient_id = req.params.id;
-    const sender_id = req.session.id;
+    const viewedId = req.params.id;
+    const loggedId = req.session.id;
 
-    db.getFriendshipStatus(recipient_id, sender_id)
+    console.log(
+        "viewedID and LoggedID in get request friendship: ",
+        viewedId,
+        loggedId
+    );
+
+    db.getFriendshipStatus(loggedId, viewedId)
         .then(({ rows }) => {
             console.log("Got relationship status:", rows);
             const data = rows[0] || null;
-            let buttonText = "Lovely Button";
+            let buttonText = "";
 
             if (data === null) {
                 buttonText = "Make Friend Request";
-            } else {
+            } else if (rows[0].accepted === true) {
                 buttonText = "End Friendship";
+            } else if (
+                rows[0].accepted === false &&
+                req.session.id === rows[0].recipient_id
+            ) {
+                buttonText = "Accept Friend Request";
+            } else if (
+                rows[0].accepted === false &&
+                req.session.id === rows[0].sender_id
+            ) {
+                buttonText = "Cancel Friend Request";
             }
 
             res.json(buttonText);
@@ -259,6 +275,49 @@ app.get("/api/users/friendship/:id", (req, res) => {
         .catch((err) => {
             console.log("err in getting relationship status", err);
         });
+});
+
+//POST FRIENDSHIP BUTTON
+app.post("/friendship.json/:otherUserId", (req, res) => {
+    console.log("friendship button req.body:", req.body);
+    console.log("req.session friendship:", req.session);
+    console.log("body:", req.body);
+    const recipient_id = req.params.id;
+    const sender_id = req.session.userId;
+    const buttonText = req.body.message;
+
+    console.log("sender id:", sender_id);
+    console.log("reciepent id:", recipient_id);
+
+    if (buttonText === "Make Friend Request") {
+        db.insertFriendshipStatus(sender_id, recipient_id).then((data) => {
+            console.log("updated Make Friend Request in db  successfully!");
+            console.log(" friend req data:", data);
+            res.json("Cancel Friend Request");
+        });
+    } else if (buttonText === "Cancel Friend Request") {
+        db.deleteFriendshipstatus(sender_id, recipient_id).then((data) => {
+            console.log("updated Cancel Friend Request in db successfully!");
+            console.log(" friend req data:", data);
+            res.json("Accept Friend Request");
+        });
+    } else if (buttonText === "Accept Friend Request") {
+        db.updateFriendshipStatus(sender_id, recipient_id).then((data) => {
+            console.log("updated Accept Friend Request in db successfully!");
+            console.log(" friend req data:", data);
+            res.json("End Friendship");
+        });
+    } else if (buttonText === "End Friendship") {
+        db.deleteFriendshipstatus(sender_id, recipient_id)
+            .then((data) => {
+                console.log("updated ending friendship in db successfully!");
+                console.log(" friend req data:", data);
+                res.json("Make Friend Request");
+            })
+            .catch((err) => {
+                console.log("error in ending friendship", err);
+            });
+    }
 });
 
 //GET FOR NAVIGATION

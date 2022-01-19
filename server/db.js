@@ -92,3 +92,27 @@ module.exports.getFriendshipStatus = (recipient_id, sender_id) => {
     const params = [recipient_id, sender_id];
     return db.query(q, params);
 };
+
+module.exports.insertFriendshipStatus = (sender_id, recipient_id) => {
+    const q = `INSERT INTO friendships (sender_id, recipient_id )
+    VALUES($1, $2) 
+    RETURNING sender_id, recipient_id, accepted`;
+    const params = [sender_id, recipient_id];
+    return db.query(q, params);
+};
+
+module.exports.updateFriendshipStatus = (sender_id, recipient_id) => {
+    const q = `UPDATE friendships
+    SET accepted=true
+    WHERE (recipient_id == $2 AND sender_id== $1) OR (recipient_id == $1 && sender_id== $2)
+    RETURNING sender_id, recipient_id`;
+    const params = [sender_id, recipient_id];
+    return db.query(q, params);
+};
+
+module.exports.deleteFriendshipstatus = (sender_id, recipient_id) => {
+    const q = `DELETE from friendships
+    WHERE (recipient_id == $2 AND sender_id== $1) OR (recipient_id == $1 && sender_id== $2)`;
+    const params = [sender_id, recipient_id];
+    return db.query(q, params);
+};

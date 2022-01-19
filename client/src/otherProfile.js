@@ -7,7 +7,7 @@ export default function OtherProfile() {
     const [user, setUser] = useState();
     const history = useHistory();
 
-    // console.log("otherUserid from params:", id);
+    console.log("otherUserid from params:", id);
     // console.log("user:", user);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function OtherProfile() {
                 </div>
             )}
 
-            <FriendBtn />
+            <FriendBtn otherUserId={id} />
         </>
     );
 }

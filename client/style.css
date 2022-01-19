@@ -84,6 +84,11 @@ login-link {
     height: 20%;
     width: 20%;
 }
+
+.friend_button {
+    width: 180px;
+    height: 30px;
+}
 #mainPage {
     display: flex;
     flex-direction: row;

@@ -82,7 +82,7 @@ export default class App extends Component {
                 <BrowserRouter>
                     <section id="mainPage">
                         <img
-                            src="logo.JPG"
+                            src="/logo.JPG"
                             alt="social network logo"
                             id="homepage-logo"
                         />
