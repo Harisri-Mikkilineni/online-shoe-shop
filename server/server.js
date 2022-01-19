@@ -240,7 +240,7 @@ app.get("/api/users/:id", (req, res) => {
 app.get(`/api/users/friendship/:id`, (req, res) => {
     console.log("other profile user", req.body);
     const viewedId = req.params.id;
-    const loggedId = req.session.id;
+    const loggedId = req.session.userId;
 
     console.log(
         "viewedID and LoggedID in get request friendship: ",
@@ -260,12 +260,12 @@ app.get(`/api/users/friendship/:id`, (req, res) => {
                 buttonText = "End Friendship";
             } else if (
                 rows[0].accepted === false &&
-                req.session.id === rows[0].recipient_id
+                loggedId === rows[0].recipient_id
             ) {
                 buttonText = "Accept Friend Request";
             } else if (
                 rows[0].accepted === false &&
-                req.session.id === rows[0].sender_id
+                loggedId === rows[0].sender_id
             ) {
                 buttonText = "Cancel Friend Request";
             }
@@ -279,10 +279,10 @@ app.get(`/api/users/friendship/:id`, (req, res) => {
 
 //POST FRIENDSHIP BUTTON
 app.post("/friendship.json/:otherUserId", (req, res) => {
-    console.log("friendship button req.body:", req.body);
-    console.log("req.session friendship:", req.session);
-    console.log("body:", req.body);
-    const recipient_id = req.params.id;
+    // console.log("friendship button req.body:", req.body);
+    // console.log("req.session friendship:", req.session);
+    //console.log("body:", req.body);
+    const recipient_id = req.params.otherUserId;
     const sender_id = req.session.userId;
     const buttonText = req.body.message;
 
@@ -298,8 +298,8 @@ app.post("/friendship.json/:otherUserId", (req, res) => {
     } else if (buttonText === "Cancel Friend Request") {
         db.deleteFriendshipstatus(sender_id, recipient_id).then((data) => {
             console.log("updated Cancel Friend Request in db successfully!");
-            console.log(" friend req data:", data);
-            res.json("Accept Friend Request");
+            console.log(" cancel friendship request:", data);
+            res.json("Make Friend Request");
         });
     } else if (buttonText === "Accept Friend Request") {
         db.updateFriendshipStatus(sender_id, recipient_id).then((data) => {
