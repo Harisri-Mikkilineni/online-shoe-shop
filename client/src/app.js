@@ -5,6 +5,7 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import FindUser from "./findUser";
 import OtherProfile from "./otherProfile";
+import FriendsAndWannabees from "./friendsAndWannabees";
 
 export default class App extends Component {
     constructor() {
@@ -92,6 +93,15 @@ export default class App extends Component {
                             </Link>
                         </div>
 
+                        <div>
+                            <Link
+                                className="allFriends_link"
+                                to="/friendsAndWannabees"
+                            >
+                                My Friends
+                            </Link>
+                        </div>
+
                         <ProfilePic
                             first={this.first}
                             last={this.last}
@@ -127,6 +137,10 @@ export default class App extends Component {
 
                     <Route path="/users/:id">
                         <OtherProfile />
+                    </Route>
+
+                    <Route path="/friendsAndWannabees">
+                        <FriendsAndWannabees />
                     </Route>
                 </BrowserRouter>
             </>

@@ -320,6 +320,56 @@ app.post("/friendship.json/:otherUserId", (req, res) => {
     }
 });
 
+// GET ALL FRIENDS AND WANNABEES --/friends-and-wannabees
+app.get("/friends-and-wannabees", (req, res) => {
+    const userId = req.session.userId;
+    console.log("userId in friends and wannables server side:", userId);
+    db.retrieveAllFriends(userId)
+        .then(({ rows }) => {
+            console.log("Got all friends from db table:", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("err in getting all friends from db", err);
+        });
+});
+
+//POST FRIENDSHIP ACCEPT
+app.post("/friendship/accept", (req, res) => {
+    console.log("friendship accept body:", req.body);
+    const recipient_id = req.params.otherUserId;
+    const sender_id = req.session.userId;
+
+    console.log("sender id:", sender_id);
+    console.log("reciepent id:", recipient_id);
+
+    db.updateFriendshipStatus(sender_id, recipient_id).then((data) => {
+        console.log("updated Accept Friend Request in db successfully!");
+        console.log(" friend req data:", data);
+        res.json("End Friendship");
+    });
+});
+
+//POST FRIENDSHIP END
+app.post("/friendship/end", (req, res) => {
+    console.log("friendship end body:", req.body);
+    const recipient_id = req.params.otherUserId;
+    const sender_id = req.session.userId;
+
+    console.log("sender id:", sender_id);
+    console.log("reciepent id:", recipient_id);
+
+    db.deleteFriendshipstatus(sender_id, recipient_id)
+        .then((data) => {
+            console.log("updated ending friendship in db successfully!");
+            console.log(" friend req data:", data);
+            res.json("Make Friend Request");
+        })
+        .catch((err) => {
+            console.log("error in ending friendship", err);
+        });
+});
+
 //GET FOR NAVIGATION
 app.get("/navigation.json", (req, res) => {
     console.log("req session in nav:", req.session);

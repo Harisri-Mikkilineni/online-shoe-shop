@@ -116,3 +116,13 @@ module.exports.deleteFriendshipstatus = (sender_id, recipient_id) => {
     const params = [sender_id, recipient_id];
     return db.query(q, params);
 };
+
+module.exports.retrieveAllFriends = (userId) => {
+    const q = `SELECT users.id, first, last, image_url, accepted
+               FROM friendships
+               JOIN users ON (accepted = false AND recipient_id = $1 AND sender_id = users.id) OR
+                (accepted = true AND recipient_id = $1 AND sender_id = users.id) OR
+                (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
+    const params = [userId];
+    return db.query(q, params);
+};
