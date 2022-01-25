@@ -87,41 +87,48 @@ export default function FriendsAndWannabees() {
     return (
         <>
             <h1>These people wanna be your friends</h1>
-            {wannabees &&
-                wannabees.map((wannabee) => {
-                    return (
-                        <div key={wannabee.id}>
-                            <img
-                                className="search-pic"
-                                src={wannabee.image_url}
-                            />
-                            <div>
-                                {wannabee.first} {wannabee.last}
+            <div className="wannabees">
+                {wannabees &&
+                    wannabees.map((wannabee) => {
+                        return (
+                            <div key={wannabee.id}>
+                                <img
+                                    className="search-pic"
+                                    src={wannabee.image_url}
+                                />
+                                <div>
+                                    {wannabee.first} {wannabee.last}
+                                </div>
+                                <button
+                                    onClick={() => handleAccept(wannabee.id)}
+                                >
+                                    Accept Friendship
+                                </button>
                             </div>
-                            <button onClick={() => handleAccept(wannabee.id)}>
-                                Accept Friendship
-                            </button>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+            </div>
+
             <h1>These people are your friends</h1>
-            {friends &&
-                friends.map((friend) => {
-                    return (
-                        <div key={friend.id}>
-                            <img
-                                className="search-pic"
-                                src={friend.image_url}
-                            />
-                            <div>
-                                {friend.first} {friend.last}
+            <div className="friends">
+                {friends &&
+                    friends.map((friend) => {
+                        return (
+                            <div key={friend.id}>
+                                <img
+                                    className="search-pic"
+                                    src={friend.image_url}
+                                />
+                                <div>
+                                    {friend.first} {friend.last}
+                                </div>
+                                <button onClick={() => handleDelete(friend.id)}>
+                                    End Friendship
+                                </button>
                             </div>
-                            <button onClick={() => handleDelete(friend.id)}>
-                                End Friendship
-                            </button>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+            </div>
         </>
     );
 }

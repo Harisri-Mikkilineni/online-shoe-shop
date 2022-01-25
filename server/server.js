@@ -9,15 +9,27 @@ const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
 const { uploader } = require("./upload");
 const s3 = require("./s3");
+const http = require("http");
+const SocketIOServer = require("socket.io");
+const server = http.createServer(app);
+const io = SocketIOServer(server, {
+    allowRequest: (req, callback) => {
+        callback(null, req.headers.referer.startsWith("http://localhost:3000"));
+    },
+});
 
 /*=============================middleware============================*/
 app.use(
-    cookieSession({
+   const cookieSessionMiddleware =  cookieSession({
         secret: `Happy Coding`,
         maxAge: 1000 * 60 * 60 * 24 * 14,
         sameSite: true,
-    })
+    });
 );
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use((req, res, next) => {
     console.log("req.url:", req.url);
@@ -389,6 +401,31 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", (socket) => {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    console.log(`New Socket Connection  with ID: ${socket.id} and userId: ${socket.request.session.userId} connected`);
+
+    db.getLasTenChatMessages().then(({rows})=>{
+        console.log("rows:",rows);
+
+        //here write code for socket.emit()
+        socket.emit('test', {
+            info: ['this is very', 'important info', 'for client'],
+        });
+    }).catch(err=>{
+        console.log("error:",err);
+    })
+
+    socket.on("client-to-server-onion", (message) => {
+        console.log(message);
+    });
+    // io.sockets.sockets.get(socketId).broadcast.emit("abcd");
+    socket.emit("hello", "tadaan");
 });

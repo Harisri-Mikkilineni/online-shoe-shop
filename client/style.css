@@ -23,6 +23,16 @@ form {
     width: 70px;
 }
 
+.wannabees,
+.friends {
+    display: flex;
+    direction: row;
+    align-items: center;
+    row-gap: 10px;
+    column-gap: 20px;
+    border: 2px solid lightslategrey;
+    text-align: center;
+}
 span {
     display: flex;
     direction: row;
