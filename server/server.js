@@ -433,10 +433,37 @@ io.on("connection", (socket) => {
 
     socket.on("newChatMessage", (message) => {
         console.log(message);
+        const user_id = socket.request.session.userId;
+        console.log("socket req user id:", user_id);
+
         // add message to DB
+        db.addMessagesToTheChat(message, user_id)
+            .then(({ rows }) => {
+                console.log("rows from new chat messages:", rows);
+                rows.forEach((row) => {
+                    const created_at = moment(row.created_at).format(
+                        "MMMM Do YYYY, h:mm:ss a"
+                    );
+                    console.log(
+                        "My updated Date in the comments: ",
+                        created_at
+                    );
+
+                    db.getUserById(rows[0].user_id).then(({ rows }) => {
+                        const newChatMessage = {
+                            ...rows[0],
+                            message,
+                            created_at,
+                        };
+                        io.emit("chatMessage", newChatMessage);
+                    });
+                });
+            })
+            .catch((err) => {
+                console.log("error getting in last 10 messages:", err);
+            });
         // get users name and image url from DB
         // emit to all connected clients
         // io.sockets.sockets.get(socketId).broadcast.emit("abcd");
-        io.emit("test", "MESSAGE received");
     });
 });
