@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ProfilePic from "./profilePic";
 
 export default function FindUser() {
     const [search, setSearch] = useState("");
@@ -35,33 +36,34 @@ export default function FindUser() {
         };
     }, [search]);
 
-    const imageError = (e) => {
-        e.currentTarget.setAttribute("src", "/default.png");
-    };
+    // const imageError = (e) => {
+    //     e.currentTarget.setAttribute("src", "/default.png");
+    // };
 
     return (
         <>
             <h3>Checkout who just joined!</h3>
-
-            <span>
+            <div className="find_users_container">
                 {users.map((user) => (
                     <div className="search-results" key={user.id}>
                         <Link
                             className="otherUsers_link"
                             to={`/users/${user.id}`}
                         >
-                            <img
-                                className="search-pic"
-                                src={user.image_url}
-                                onError={imageError}
+                            <ProfilePic
+                                first={user.first}
+                                last={user.last}
+                                imageUrl={user.image_url}
+                                loggerFunc={user.logNameOtherStuff}
                             />
+
                             <h3 className="search-name">
                                 {user.first} {user.last}
                             </h3>
                         </Link>
                     </div>
                 ))}
-            </span>
+            </div>
 
             <h3>Are you looking for someone in particular?</h3>
             <input

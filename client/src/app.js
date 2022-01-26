@@ -89,39 +89,36 @@ export default class App extends Component {
                             id="homepage-logo"
                         />
                         <div>
-                            <Link className="findUsers_link" to="/users">
+                            <Link className="link" to="/users">
                                 Find Users
                             </Link>
                         </div>
 
                         <div>
-                            <Link
-                                className="findUsers_link"
-                                to="/friendsAndWannabees"
-                            >
+                            <Link className="link" to="/friendsAndWannabees">
                                 My Friends
                             </Link>
                         </div>
 
                         <div>
-                            <Link className="findUsers_link" to="/chat">
+                            <Link className="link" to="/chat">
                                 Chat
                             </Link>
                         </div>
 
-                        <div>
-                            <Link className="findUsers_link" to="/users">
-                                Find Users
-                            </Link>
-                        </div>
+                        <form action="/logout">
+                            <button className="link">Logout</button>
+                        </form>
 
                         <ProfilePic
                             first={this.first}
                             last={this.last}
                             imageUrl={this.state.url}
                             loggerFunc={this.logNameOtherStuff}
+                            navbar={true}
                         />
                     </section>
+                    <hr></hr>
 
                     {this.state.uploaderIsVisible && (
                         <Uploader

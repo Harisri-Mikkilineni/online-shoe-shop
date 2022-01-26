@@ -1,13 +1,19 @@
-export default function ProfilePic({ first, last, imageUrl, loggerFunc }) {
+export default function ProfilePic({
+    first,
+    last,
+    imageUrl,
+    loggerFunc,
+    navbar,
+}) {
     imageUrl = imageUrl || "default.png";
-    //const nameSymbols = "%&$*";
+
     return (
         <>
             <img
                 onClick={() => loggerFunc()}
                 src={imageUrl}
                 alt={`${first} ${last}`}
-                id="navbar-avatar"
+                id={`${navbar ? "navbar-avatar" : "pic_image"}`}
             />
         </>
     );

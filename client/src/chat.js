@@ -36,12 +36,13 @@ export default function Chat() {
                                     className="chat_image"
                                     src={msgs.image_url}
                                 />
-
-                                <p className="msg_color">
-                                    {msgs.first} {msgs.last} {msgs.created_at}
-                                </p>
-                                <br />
                                 <div>{msgs.message}</div>
+                                <div>
+                                    <p className="msg_color">
+                                        {msgs.first} {msgs.last}{" "}
+                                        {msgs.created_at}
+                                    </p>
+                                </div>
                             </div>
                         );
                     })}

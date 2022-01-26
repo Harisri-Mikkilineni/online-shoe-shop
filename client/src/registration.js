@@ -1,5 +1,5 @@
 import { Component } from "react";
-
+import { Link } from "react-router-dom";
 export class Registration extends Component {
     constructor(props) {
         super(props);
@@ -79,7 +79,7 @@ export class Registration extends Component {
                     />
                     <input
                         name="email"
-                        placeholder="your@email.come"
+                        placeholder="your@email.com"
                         type="email"
                         onChange={this.handleChange}
                     />
@@ -90,6 +90,10 @@ export class Registration extends Component {
                         onChange={this.handleChange}
                     />
                     <button onClick={this.handleSubmit}>Register</button>
+
+                    <Link className="login_btn" to="/login">
+                        Login
+                    </Link>
                 </form>
             </>
         );

@@ -78,6 +78,14 @@ app.get("/user/id.json", function (req, res) {
         userId: req.session.userId,
     });
 });
+
+// LOGOUT ROUTE
+app.get("/logout", function (req, res) {
+    console.log("logout session userId:", req.session);
+    req.session = null;
+    res.redirect("/");
+});
+
 //POST LOGIN ROUTE
 app.post("/login.json", (req, res) => {
     console.log("body:", req.body);
