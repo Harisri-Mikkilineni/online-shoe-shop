@@ -127,8 +127,8 @@ module.exports.retrieveAllFriends = (userId) => {
     return db.query(q, params);
 };
 
-module.exports.getRecentTenChatMessages = () => {
-    const q = `SELECT user_id, message, chat_messages.created_at, first, last, url
+module.exports.getLastTenChatMessages = () => {
+    const q = `SELECT user_id, message, chat_messages.created_at, first, last, image_url
                 FROM chat_messages
                 JOIN users ON user_id = users.id
                 ORDER BY created_at DESC

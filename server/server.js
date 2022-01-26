@@ -4,29 +4,28 @@ const compression = require("compression");
 const path = require("path");
 const db = require("./db");
 const { hash, compare } = require("./bcrypt");
-const cookieSession = require("cookie-session");
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
 const { uploader } = require("./upload");
 const s3 = require("./s3");
-const http = require("http");
-const SocketIOServer = require("socket.io");
-const server = http.createServer(app);
-const io = SocketIOServer(server, {
-    allowRequest: (req, callback) => {
-        callback(null, req.headers.referer.startsWith("http://localhost:3000"));
-    },
+const server = require("http").Server(app);
+const cookieSession = require("cookie-session");
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
 });
+const moment = require("moment");
 
 /*=============================middleware============================*/
-app.use(
-   const cookieSessionMiddleware =  cookieSession({
-        secret: `Happy Coding`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-    });
-);
+
+const cookieSessionMiddleware = cookieSession({
+    secret: `Happy Coding`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+    sameSite: true,
+});
+
 app.use(cookieSessionMiddleware);
+
 io.use(function (socket, next) {
     cookieSessionMiddleware(socket.request, socket.request.res, next);
 });
@@ -409,23 +408,35 @@ io.on("connection", (socket) => {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
+    const userId = socket.request.session.userId;
 
-    console.log(`New Socket Connection  with ID: ${socket.id} and userId: ${socket.request.session.userId} connected`);
-
-    db.getLasTenChatMessages().then(({rows})=>{
-        console.log("rows:",rows);
-
-        //here write code for socket.emit()
-        socket.emit('test', {
-            info: ['this is very', 'important info', 'for client'],
+    console.log(
+        `New Socket Connection  with ID: ${socket.id} and userId: ${userId} connected`
+    );
+    db.getLastTenChatMessages()
+        .then(({ rows }) => {
+            console.log("rows from last ten chat messages:", rows);
+            rows.forEach((row) => {
+                row.created_at = moment(row.created_at).format(
+                    "MMMM Do YYYY, h:mm:ss a"
+                );
+                console.log(
+                    "My updated Date in the comments: ",
+                    row.created_at
+                );
+            });
+            socket.emit("chatMessages", rows);
+        })
+        .catch((err) => {
+            console.log("error getting in last 10 messages:", err);
         });
-    }).catch(err=>{
-        console.log("error:",err);
-    })
 
-    socket.on("client-to-server-onion", (message) => {
+    socket.on("newChatMessage", (message) => {
         console.log(message);
+        // add message to DB
+        // get users name and image url from DB
+        // emit to all connected clients
+        // io.sockets.sockets.get(socketId).broadcast.emit("abcd");
+        io.emit("test", "MESSAGE received");
     });
-    // io.sockets.sockets.get(socketId).broadcast.emit("abcd");
-    socket.emit("hello", "tadaan");
 });

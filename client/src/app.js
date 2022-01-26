@@ -96,10 +96,22 @@ export default class App extends Component {
 
                         <div>
                             <Link
-                                className="allFriends_link"
+                                className="findUsers_link"
                                 to="/friendsAndWannabees"
                             >
                                 My Friends
+                            </Link>
+                        </div>
+
+                        <div>
+                            <Link className="findUsers_link" to="/chat">
+                                Chat
+                            </Link>
+                        </div>
+
+                        <div>
+                            <Link className="findUsers_link" to="/users">
+                                Find Users
                             </Link>
                         </div>
 
