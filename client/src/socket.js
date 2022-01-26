@@ -1,7 +1,4 @@
-// import {
-//     chatMessagesReceived,
-//     chatMessageReceived,
-// } from "./redux/messages/slice.js";
+import { chatMessagesReceived, chatMessageReceived } from "./redux/slice.js";
 
 import { io } from "socket-io-client";
 
@@ -11,12 +8,12 @@ export const init = (store) => {
     if (!socket) {
         socket = io.connect();
 
-        // socket.on("chatMessages", (msgs) =>
-        //     store.dispatch(chatMessagesReceived(msgs))
-        // );
+        socket.on("chatMessages", (msgs) =>
+            store.dispatch(chatMessagesReceived(msgs))
+        );
 
-        // socket.on("chatMessage", (msg) =>
-        //     store.dispatch(chatMessageReceived(msg))
-        // );
+        socket.on("chatMessage", (msg) =>
+            store.dispatch(chatMessageReceived(msg))
+        );
     }
 };
