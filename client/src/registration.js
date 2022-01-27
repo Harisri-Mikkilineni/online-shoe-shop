@@ -89,6 +89,18 @@ export class Registration extends Component {
                         type="password"
                         onChange={this.handleChange}
                     />
+                    <input
+                        name="mobile"
+                        placeholder="mobile number"
+                        type="mobile"
+                        onChange={this.handleChange}
+                    />
+                    <input
+                        name="address"
+                        placeholder="address"
+                        type="address"
+                        onChange={this.handleChange}
+                    />
                     <button onClick={this.handleSubmit}>Register</button>
 
                     <Link className="login_btn" to="/login">

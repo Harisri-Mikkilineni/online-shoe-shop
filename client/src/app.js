@@ -1,12 +1,5 @@
 import { Component } from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
-import ProfilePic from "./profilePic";
-import Uploader from "./uploader";
-import Profile from "./profile";
-import FindUser from "./findUser";
-import OtherProfile from "./otherProfile";
-import FriendsAndWannabees from "./friendsAndWannabees";
-import Chat from "./chat";
+import { BrowserRouter, Link } from "react-router-dom";
 
 export default class App extends Component {
     constructor() {
@@ -86,80 +79,21 @@ export default class App extends Component {
                         <section id="mainPage">
                             <img
                                 src="/logo.JPG"
-                                alt="social network logo"
+                                alt="online shop"
                                 id="homepage-logo"
                             />
                             <div>
-                                <Link className="link" to="/users">
-                                    Find Users
-                                </Link>
-                            </div>
-
-                            <div>
-                                <Link
-                                    className="link"
-                                    to="/friendsAndWannabees"
-                                >
-                                    My Friends
-                                </Link>
-                            </div>
-
-                            <div>
-                                <Link className="link" to="/chat">
-                                    Chat
+                                <Link className="link" to="/products">
+                                    Products
                                 </Link>
                             </div>
 
                             <form action="/logout">
                                 <button className="link">Logout</button>
                             </form>
-
-                            <ProfilePic
-                                first={this.first}
-                                last={this.last}
-                                imageUrl={this.state.url}
-                                loggerFunc={this.logNameOtherStuff}
-                                navbar={true}
-                            />
                         </section>
                         <hr></hr>
                     </div>
-
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            toggleUploader={this.toggleUploader}
-                            logNameOtherStuff={this.logNameOtherStuff}
-                            closeModal={this.closeModal}
-                            changeImage={this.changeImage}
-                        />
-                    )}
-
-                    <Route exact path="/">
-                        <Profile
-                            first={this.state.first}
-                            last={this.state.last}
-                            bio={this.state.bio}
-                            imageUrl={this.state.url}
-                            toggleUploader={this.toggleUploader}
-                            loggerFunc={this.logNameOtherStuff}
-                            updateProfileBio={this.updateProfileBio}
-                        />
-                    </Route>
-
-                    <Route exact path="/users">
-                        <FindUser />
-                    </Route>
-
-                    <Route path="/users/:id">
-                        <OtherProfile />
-                    </Route>
-
-                    <Route path="/friendsAndWannabees">
-                        <FriendsAndWannabees />
-                    </Route>
-                    <Route path="/chat">
-                        <Chat />
-                    </Route>
                 </BrowserRouter>
             </>
         );

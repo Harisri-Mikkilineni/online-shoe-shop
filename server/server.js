@@ -6,15 +6,10 @@ const db = require("./db");
 const { hash, compare } = require("./bcrypt");
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
-const { uploader } = require("./upload");
-const s3 = require("./s3");
+//const { uploader } = require("./upload");
+//const s3 = require("./s3");
 const server = require("http").Server(app);
 const cookieSession = require("cookie-session");
-const io = require("socket.io")(server, {
-    allowRequest: (req, callback) =>
-        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
-});
-const moment = require("moment");
 
 /*=============================middleware============================*/
 
@@ -25,10 +20,6 @@ const cookieSessionMiddleware = cookieSession({
 });
 
 app.use(cookieSessionMiddleware);
-
-io.use(function (socket, next) {
-    cookieSessionMiddleware(socket.request, socket.request.res, next);
-});
 
 app.use((req, res, next) => {
     console.log("req.url:", req.url);
@@ -41,6 +32,7 @@ app.use(express.json());
 /*=============================Routes================================*/
 //any routes that we are adding where the client is requesting or sending over
 //data to store in the database have to go ABOVE the star route below!!
+
 //POST REGISTRATION ROUTE
 app.post("/register.json", (req, res) => {
     console.log("body:", req.body);
@@ -49,19 +41,34 @@ app.post("/register.json", (req, res) => {
     const lastName = data.last;
     const email = data.email;
     const password = data.password;
+    const mobileNumber = data.mobile;
+    const address = data.address;
 
-    console.log("user data:", firstName, lastName, email, password);
+    console.log(
+        "user data:",
+        firstName,
+        lastName,
+        email,
+        password,
+        mobileNumber,
+        address
+    );
 
     hash(password)
         .then((hashedPw) => {
             console.log("hashedPw:", hashedPw);
-            db.addUsers(firstName, lastName, email, hashedPw).then(
-                ({ rows }) => {
-                    req.session.userId = rows[0].id;
-                    console.log("cookie id:", req.session.userId);
-                    res.json({ success: true });
-                }
-            );
+            db.addUsers(
+                firstName,
+                lastName,
+                email,
+                hashedPw,
+                mobileNumber,
+                address
+            ).then(({ rows }) => {
+                req.session.userId = rows[0].id;
+                console.log("cookie id:", req.session.userId);
+                res.json({ success: true });
+            });
         })
         .catch((err) => {
             console.log("err in adding user", err);
@@ -79,18 +86,11 @@ app.get("/user/id.json", function (req, res) {
     });
 });
 
-// LOGOUT ROUTE
-app.get("/logout", function (req, res) {
-    console.log("logout session userId:", req.session);
-    req.session = null;
-    res.redirect("/");
-});
-
 //POST LOGIN ROUTE
 app.post("/login.json", (req, res) => {
     console.log("body:", req.body);
     const { email, password } = req.body;
-    console.log("email:[0],password:[1]", req.body.email, req.body.password);
+    console.log("email:[0], password:[1]", req.body.email, req.body.password);
     if (email && password) {
         db.getUserByEmail(email)
             .then(({ rows }) => {
@@ -177,230 +177,11 @@ app.post("/password/reset/confirm.json", (req, res) => {
     });
 });
 
-app.post(
-    "/updateImage.json",
-    uploader.single("file"),
-    s3.upload,
-    (req, res) => {
-        const image_url = req.file.filename;
-        console.log("req.file:", req.file.filename);
-        console.log("body:", req.body);
-        const id = req.session.userId;
-        console.log(" image value:", image_url);
-        const imageUrl = "https://harisribucket.s3.amazonaws.com/" + image_url;
-        console.log("id:[0],url:[1]", id, imageUrl);
-        db.updateImage(id, imageUrl)
-            .then((data) => {
-                console.log("image rows data in update image!");
-                res.json(data.rows[0]);
-            })
-            .catch((err) => {
-                console.log("error in updating image to database:", err);
-            });
-    }
-);
-//POST UPDATE BIO
-app.post("/bio.json", (req, res) => {
-    console.log("update bio req.body:", req.body);
-    console.log("body:", req.body);
-    const bio = req.body.bio;
-    const id = req.session.userId;
-    db.updateBio(id, bio)
-        .then((data) => {
-            console.log("updated bio data in db successfully!");
-            res.json(data.rows[0]);
-        })
-        .catch((err) => {
-            console.log("error in updating bio to database:", err);
-        });
-});
-
-//GET FOR RECENTLY CREATED USERS
-app.get("/recentUsers", (req, res) => {
-    console.log("recently added users", req.body);
-    db.getRecentUsers(req.session.userId)
-        .then(({ rows }) => {
-            console.log("Got 3 recently added users:", rows);
-            res.json(rows);
-        })
-        .catch((err) => {
-            console.log("err in getting recently added users", err);
-        });
-});
-
-// GET USER BY MATCHING NAME
-app.get("/findUsers/:search", (req, res) => {
-    console.log("matched users", req.body);
-    //const search = req.params.search;
-    db.getUserbyMatchingName(req.params.search)
-        .then(({ rows }) => {
-            console.log("Got matched added users:", rows);
-            res.json(rows);
-        })
-        .catch((err) => {
-            console.log("err in getting matched users", err);
-        });
-});
-
-//GET USER BY ID
-app.get("/api/users/:id", (req, res) => {
-    console.log("other profile user", req.body);
-    //const search = req.params.search;
-    db.getUserById(req.params.id)
-        .then(({ rows }) => {
-            console.log("Got other profile user by id:", rows);
-            res.json(rows[0]);
-        })
-        .catch((err) => {
-            console.log("err in getting other profile user by id", err);
-        });
-});
-
-//GET USER RELATIONSHIP STATUS WITH OTHER USER
-app.get(`/api/users/friendship/:id`, (req, res) => {
-    console.log("other profile user", req.body);
-    const viewedId = req.params.id;
-    const loggedId = req.session.userId;
-
-    console.log(
-        "viewedID and LoggedID in get request friendship: ",
-        viewedId,
-        loggedId
-    );
-
-    db.getFriendshipStatus(loggedId, viewedId)
-        .then(({ rows }) => {
-            console.log("Got relationship status:", rows);
-            const data = rows[0] || null;
-            let buttonText = "";
-
-            if (data === null) {
-                buttonText = "Make Friend Request";
-            } else if (rows[0].accepted === true) {
-                buttonText = "End Friendship";
-            } else if (
-                rows[0].accepted === false &&
-                loggedId === rows[0].recipient_id
-            ) {
-                buttonText = "Accept Friend Request";
-            } else if (
-                rows[0].accepted === false &&
-                loggedId === rows[0].sender_id
-            ) {
-                buttonText = "Cancel Friend Request";
-            }
-
-            res.json(buttonText);
-        })
-        .catch((err) => {
-            console.log("err in getting relationship status", err);
-        });
-});
-
-//POST FRIENDSHIP BUTTON
-app.post("/friendship.json/:otherUserId", (req, res) => {
-    // console.log("friendship button req.body:", req.body);
-    // console.log("req.session friendship:", req.session);
-    //console.log("body:", req.body);
-    const recipient_id = req.params.otherUserId;
-    const sender_id = req.session.userId;
-    const buttonText = req.body.message;
-
-    console.log("sender id:", sender_id);
-    console.log("reciepent id:", recipient_id);
-
-    if (buttonText === "Make Friend Request") {
-        db.insertFriendshipStatus(sender_id, recipient_id).then((data) => {
-            console.log("updated Make Friend Request in db  successfully!");
-            console.log(" friend req data:", data);
-            res.json("Cancel Friend Request");
-        });
-    } else if (buttonText === "Cancel Friend Request") {
-        db.deleteFriendshipstatus(sender_id, recipient_id).then((data) => {
-            console.log("updated Cancel Friend Request in db successfully!");
-            console.log(" cancel friendship request:", data);
-            res.json("Make Friend Request");
-        });
-    } else if (buttonText === "Accept Friend Request") {
-        db.updateFriendshipStatus(sender_id, recipient_id).then((data) => {
-            console.log("updated Accept Friend Request in db successfully!");
-            console.log(" friend req data:", data);
-            res.json("End Friendship");
-        });
-    } else if (buttonText === "End Friendship") {
-        db.deleteFriendshipstatus(sender_id, recipient_id)
-            .then((data) => {
-                console.log("updated ending friendship in db successfully!");
-                console.log(" friend req data:", data);
-                res.json("Make Friend Request");
-            })
-            .catch((err) => {
-                console.log("error in ending friendship", err);
-            });
-    }
-});
-
-// GET ALL FRIENDS AND WANNABEES --/friends-and-wannabees
-app.get("/friends-and-wannabees", (req, res) => {
-    const userId = req.session.userId;
-    console.log("userId in friends and wannables server side:", userId);
-    db.retrieveAllFriends(userId)
-        .then(({ rows }) => {
-            console.log("Got all friends from db table:", rows);
-            res.json(rows);
-        })
-        .catch((err) => {
-            console.log("err in getting all friends from db", err);
-        });
-});
-
-//POST FRIENDSHIP ACCEPT
-app.post("/friendship/accept", (req, res) => {
-    console.log("friendship accept body:", req.body);
-    const recipient_id = req.params.otherUserId;
-    const sender_id = req.session.userId;
-
-    console.log("sender id:", sender_id);
-    console.log("reciepent id:", recipient_id);
-
-    db.updateFriendshipStatus(sender_id, recipient_id).then((data) => {
-        console.log("updated Accept Friend Request in db successfully!");
-        console.log(" friend req data:", data);
-        res.json("End Friendship");
-    });
-});
-
-//POST FRIENDSHIP END
-app.post("/friendship/end", (req, res) => {
-    console.log("friendship end body:", req.body);
-    const recipient_id = req.params.otherUserId;
-    const sender_id = req.session.userId;
-
-    console.log("sender id:", sender_id);
-    console.log("reciepent id:", recipient_id);
-
-    db.deleteFriendshipstatus(sender_id, recipient_id)
-        .then((data) => {
-            console.log("updated ending friendship in db successfully!");
-            console.log(" friend req data:", data);
-            res.json("Make Friend Request");
-        })
-        .catch((err) => {
-            console.log("error in ending friendship", err);
-        });
-});
-
-//GET FOR NAVIGATION
-app.get("/navigation.json", (req, res) => {
-    console.log("req session in nav:", req.session);
-    db.getUserById(req.session.userId)
-
-        .then(({ rows }) => {
-            console.log("rows in nav:", rows);
-
-            res.json(rows[0]);
-        })
-        .catch((err) => console.log("err in opening modal:", err));
+// LOGOUT ROUTE
+app.get("/logout", function (req, res) {
+    console.log("logout session userId:", req.session);
+    req.session = null;
+    res.redirect("/");
 });
 
 //
@@ -411,68 +192,4 @@ app.get("*", function (req, res) {
 
 server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
-});
-
-io.on("connection", (socket) => {
-    if (!socket.request.session.userId) {
-        return socket.disconnect(true);
-    }
-    const userId = socket.request.session.userId;
-
-    console.log(
-        `New Socket Connection  with ID: ${socket.id} and userId: ${userId} connected`
-    );
-    db.getLastTenChatMessages()
-        .then(({ rows }) => {
-            console.log("rows from last ten chat messages:", rows);
-            rows.forEach((row) => {
-                row.created_at = moment(row.created_at).format(
-                    "MMMM Do YYYY, h:mm:ss a"
-                );
-                console.log(
-                    "My updated Date in the comments: ",
-                    row.created_at
-                );
-            });
-            socket.emit("chatMessages", rows);
-        })
-        .catch((err) => {
-            console.log("error getting in last 10 messages:", err);
-        });
-
-    socket.on("newChatMessage", (message) => {
-        console.log(message);
-        const user_id = socket.request.session.userId;
-        console.log("socket req user id:", user_id);
-
-        // add message to DB
-        db.addMessagesToTheChat(message, user_id)
-            .then(({ rows }) => {
-                console.log("rows from new chat messages:", rows);
-                rows.forEach((row) => {
-                    const created_at = moment(row.created_at).format(
-                        "MMMM Do YYYY, h:mm:ss a"
-                    );
-                    console.log(
-                        "My updated Date in the comments: ",
-                        created_at
-                    );
-
-                    db.getUserById(rows[0].user_id).then(({ rows }) => {
-                        const newChatMessage = {
-                            ...rows[0],
-                            message,
-                            created_at,
-                        };
-                        io.emit("chatMessage", newChatMessage);
-                    });
-                });
-            })
-            .catch((err) => {
-                console.log("error getting in last 10 messages:", err);
-            });
-        // get users name and image url from DB
-        // emit to all connected clients
-        // io.sockets.sockets.get(socketId).broadcast.emit("abcd");
-    });
 });

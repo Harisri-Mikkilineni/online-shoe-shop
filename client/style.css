@@ -1,5 +1,5 @@
 body {
-    background-color: pink;
+    background-color: cornsilk;
     margin: 0px;
 }
 
@@ -19,24 +19,23 @@ a {
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.2fr 0.8fr;
     height: 100%;
 }
 
-.container .section-left {
-    background-color: pink;
+.container .section-top {
+    background-color: green;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.container .section-right {
-    background-color: lightblue;
+.container .section-bottom {
+    background-color: lightgrey;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
 .title {
@@ -130,7 +129,7 @@ span {
     column-gap: 20px;
     border: 0.5px solid grey;
     text-align: center;
-    background-color: pink;
+    background-color: green;
 }
 
 .bio_editor {
@@ -205,7 +204,7 @@ input {
 }
 
 .app_bgc {
-    background-color: lightblue;
+    background-color: green;
 }
 
 .find_users_container {
