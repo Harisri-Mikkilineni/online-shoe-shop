@@ -8,7 +8,7 @@ export default function Welcome() {
         <>
             <div className="container">
                 <section className="section-left">
-                    <h1 className="title">WELCOME TO CHIT CHAT</h1>
+                    <h1 className="title">WELCOME TO URBAN CONNECT</h1>
                     <img className="logo" src="/logo.JPG" alt="logo" />
                 </section>
 

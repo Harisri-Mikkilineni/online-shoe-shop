@@ -57,9 +57,9 @@ export default function FindUser() {
                                 loggerFunc={user.logNameOtherStuff}
                             />
 
-                            <h3 className="search-name">
+                            <h5 className="search-name">
                                 {user.first} {user.last}
-                            </h3>
+                            </h5>
                         </Link>
                     </div>
                 ))}

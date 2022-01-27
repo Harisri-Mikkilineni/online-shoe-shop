@@ -86,7 +86,7 @@ export default function FriendsAndWannabees() {
     };
     return (
         <>
-            <h1>These people wanna be your friends</h1>
+            <h3>These people wanna be your friends</h3>
             <div className="wannabees">
                 {wannabees &&
                     wannabees.map((wannabee) => {
@@ -109,7 +109,7 @@ export default function FriendsAndWannabees() {
                     })}
             </div>
 
-            <h1>These people are your friends</h1>
+            <h3>These people are your friends</h3>
             <div className="friends">
                 {friends &&
                     friends.map((friend) => {

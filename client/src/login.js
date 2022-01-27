@@ -39,7 +39,7 @@ class Login extends Component {
         })
             .then((data) => data.json())
             .then((data) => {
-                console.log("response data from /register.json:", data.success);
+                console.log("response data from /login.json:", data.success);
                 if (data.success === true) {
                     location.reload();
                 } else {

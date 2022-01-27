@@ -110,6 +110,7 @@ app.post("/login.json", (req, res) => {
             })
             .catch((err) => {
                 console.log("err in compare", err);
+                res.json({ success: false });
             });
     } else {
         res.json({ success: false });

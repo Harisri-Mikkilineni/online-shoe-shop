@@ -46,14 +46,14 @@ export default function Chat() {
                             </div>
                         );
                     })}
-
-                <textarea
-                    rows="4"
-                    columns="100"
-                    placeholder="Enter your message!"
-                    onKeyDown={keyCheck}
-                />
             </div>
+
+            <textarea className= "chat_input" 
+                rows="4"
+                columns="100"
+                placeholder="Enter your message!"
+                onKeyDown={keyCheck}
+            />
         </>
     );
 }

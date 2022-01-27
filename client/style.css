@@ -1,9 +1,10 @@
 body {
-    background-color: lightgray;
+    background-color: pink;
+    margin: 0px;
 }
 
 main {
-    height: 100vh;
+    height: 100vh;  
 }
 h2 {
     text-align: center;
@@ -66,12 +67,15 @@ form {
 
 .chat-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
+    overflow-y: scroll;
     column-gap: 10px;
     row-gap: 10px;
-    border: 2px solid lightslategrey;
+    border: 0.5px solid grey;
     padding-left: 5px;
     padding-top: 5px;
+    height: 40vh;
+    width: 60vw;
 }
 .chat_image {
     height: 50px;
@@ -87,11 +91,17 @@ form {
     align-items: center;
     font-weight: bold;
     font-size: 15px;
+    width: 30vw;
 }
 .msg_color {
     color: blue;
     font-weight: normal;
     font-size: 10px;
+}
+
+.chat_input {
+    height: 10vh;
+    width: 60vw;
 }
 
 .wannabees,
@@ -101,7 +111,7 @@ form {
     align-items: center;
     row-gap: 10px;
     column-gap: 20px;
-    border: 2px solid lightslategrey;
+    border: 0.5px solid grey;
     text-align: center;
 }
 
@@ -111,7 +121,7 @@ span {
     align-items: center;
     row-gap: 10px;
     column-gap: 20px;
-    border: 2px solid lightslategrey;
+    border: 0.5px solid grey;
     text-align: center;
     background-color: pink;
 }
@@ -120,7 +130,7 @@ span {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid black;
+    border: 0.5px solid black;
 }
 login-link {
     position: absolute;
@@ -137,8 +147,8 @@ login-link {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(152, 152, 158);
-    border: solid black 3px;
+    background-color: lightblue;
+    border: solid black 1px;
     margin-left: 350px;
     margin-top: 1px;
     height: 400px;
@@ -185,4 +195,8 @@ input {
     height: 30px;
     width: 200px;
     column-gap: 10px;
+}
+
+.app_bgc {
+    background-color: lightblue;
 }

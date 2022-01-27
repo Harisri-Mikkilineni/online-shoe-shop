@@ -82,43 +82,48 @@ export default class App extends Component {
         return (
             <>
                 <BrowserRouter>
-                    <section id="mainPage">
-                        <img
-                            src="/logo.JPG"
-                            alt="social network logo"
-                            id="homepage-logo"
-                        />
-                        <div>
-                            <Link className="link" to="/users">
-                                Find Users
-                            </Link>
-                        </div>
+                    <div className="app_bgc">
+                        <section id="mainPage">
+                            <img
+                                src="/logo.JPG"
+                                alt="social network logo"
+                                id="homepage-logo"
+                            />
+                            <div>
+                                <Link className="link" to="/users">
+                                    Find Users
+                                </Link>
+                            </div>
 
-                        <div>
-                            <Link className="link" to="/friendsAndWannabees">
-                                My Friends
-                            </Link>
-                        </div>
+                            <div>
+                                <Link
+                                    className="link"
+                                    to="/friendsAndWannabees"
+                                >
+                                    My Friends
+                                </Link>
+                            </div>
 
-                        <div>
-                            <Link className="link" to="/chat">
-                                Chat
-                            </Link>
-                        </div>
+                            <div>
+                                <Link className="link" to="/chat">
+                                    Chat
+                                </Link>
+                            </div>
 
-                        <form action="/logout">
-                            <button className="link">Logout</button>
-                        </form>
+                            <form action="/logout">
+                                <button className="link">Logout</button>
+                            </form>
 
-                        <ProfilePic
-                            first={this.first}
-                            last={this.last}
-                            imageUrl={this.state.url}
-                            loggerFunc={this.logNameOtherStuff}
-                            navbar={true}
-                        />
-                    </section>
-                    <hr></hr>
+                            <ProfilePic
+                                first={this.first}
+                                last={this.last}
+                                imageUrl={this.state.url}
+                                loggerFunc={this.logNameOtherStuff}
+                                navbar={true}
+                            />
+                        </section>
+                        <hr></hr>
+                    </div>
 
                     {this.state.uploaderIsVisible && (
                         <Uploader
