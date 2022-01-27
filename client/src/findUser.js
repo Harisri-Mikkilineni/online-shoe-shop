@@ -42,8 +42,9 @@ export default function FindUser() {
 
     return (
         <>
-            <h3>Checkout who just joined!</h3>
             <div className="find_users_container">
+                <h3>Checkout who just joined!</h3>
+
                 {users.map((user) => (
                     <div className="search-results" key={user.id}>
                         <Link
@@ -63,15 +64,14 @@ export default function FindUser() {
                         </Link>
                     </div>
                 ))}
+                <h3>Are you looking for someone in particular?</h3>
+                <input
+                    onChange={(e) => setSearch(e.target.value)}
+                    name="find_people"
+                    placeholder="Enter name"
+                    type="text"
+                />
             </div>
-
-            <h3>Are you looking for someone in particular?</h3>
-            <input
-                onChange={(e) => setSearch(e.target.value)}
-                name="find_people"
-                placeholder="Enter name"
-                type="text"
-            />
         </>
     );
 }

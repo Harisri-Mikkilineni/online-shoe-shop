@@ -4,7 +4,7 @@ body {
 }
 
 main {
-    height: 100vh;  
+    height: 100vh;
 }
 h2 {
     text-align: center;
@@ -76,6 +76,7 @@ form {
     padding-top: 5px;
     height: 40vh;
     width: 60vw;
+    margin-left: 10px;
 }
 .chat_image {
     height: 50px;
@@ -99,9 +100,13 @@ form {
     font-size: 10px;
 }
 
+.h1_chat {
+    margin-left: 10px;
+}
 .chat_input {
     height: 10vh;
     width: 60vw;
+    margin-left: 10px;
 }
 
 .wannabees,
@@ -113,6 +118,8 @@ form {
     column-gap: 20px;
     border: 0.5px solid grey;
     text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 span {
@@ -199,4 +206,8 @@ input {
 
 .app_bgc {
     background-color: lightblue;
+}
+
+.find_users_container {
+    margin-left: 10px;
 }

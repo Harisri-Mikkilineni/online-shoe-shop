@@ -26,7 +26,7 @@ export default function Chat() {
     console.log("These are my chatMessages:", chatMessages);
     return (
         <>
-            <h1>Chat group for you!</h1>
+            <h1 className="h1_chat"> Chat group for you!</h1>
             <div className="chat-container" ref={chatContainerRef}>
                 {chatMessages &&
                     chatMessages.map((msgs) => {
@@ -48,7 +48,8 @@ export default function Chat() {
                     })}
             </div>
 
-            <textarea className= "chat_input" 
+            <textarea
+                className="chat_input"
                 rows="4"
                 columns="100"
                 placeholder="Enter your message!"
