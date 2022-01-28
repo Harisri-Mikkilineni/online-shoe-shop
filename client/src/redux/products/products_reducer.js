@@ -7,7 +7,10 @@ const INITIAL_STATE = {
 
 const productsReducer = (state = INITIAL_STATE, action) => {
     if (action.type == actionTypes.ADD_TO_CART) {
-        return {};
+        //code to add product to state
+        return {
+            //return it and access
+        };
     } else if (action.type == actionTypes.LOAD_CURRENT_PRODUCT) {
         return {};
     } else {

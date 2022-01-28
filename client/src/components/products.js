@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Products() {
     const [items, setItems] = useState([]);
+
     useEffect(() => {
         //Step 1: fetch products
         console.log("Products just mounted");
@@ -33,6 +34,7 @@ export default function Products() {
                             <p>{item.product_description}</p>
                         </div>
                         <button className="add_cart_btn">Add To Cart</button>
+                        <button className="add_cart_btn">View Item</button>
                     </div>
                 ))}
             </div>
