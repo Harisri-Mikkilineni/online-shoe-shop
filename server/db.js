@@ -67,3 +67,18 @@ module.exports.updateUserPw = (email, password) => {
     const params = [email, password];
     return db.query(q, params);
 };
+
+module.exports.getProductById = (id) => {
+    const q = `SELECT *
+     FROM products
+     WHERE products.id = $1`;
+    const params = [id];
+    return db.query(q, params);
+};
+
+module.exports.getAllProducts = () => {
+    const q = `SELECT * FROM products
+    ORDER by id ASC
+    LIMIT 10`;
+    return db.query(q);
+};

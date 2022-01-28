@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { BrowserRouter, Link } from "react-router-dom";
+import { BrowserRouter, Link, Route } from "react-router-dom";
+import Products from "./components/products";
 
 export default class App extends Component {
     constructor() {
@@ -94,6 +95,10 @@ export default class App extends Component {
                         </section>
                         <hr></hr>
                     </div>
+
+                    <Route path="/products">
+                        <Products />
+                    </Route>
                 </BrowserRouter>
             </>
         );

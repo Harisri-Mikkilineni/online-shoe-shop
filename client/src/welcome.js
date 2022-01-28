@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Registration } from "./registration";
-import Login from "./login";
-import ResetPassword from "./resetPassword";
+import { Registration } from "./components/registration";
+import Login from "./components/login";
+import ResetPassword from "./components/resetPassword";
+
 //  <img className="logo" src="/logo.JPG" alt="logo" />
 export default function Welcome() {
     return (

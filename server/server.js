@@ -177,6 +177,19 @@ app.post("/password/reset/confirm.json", (req, res) => {
     });
 });
 
+//GET ALL PRODUCTS
+app.get("/getAllProducts", (req, res) => {
+    console.log("all products data", req.body);
+    db.getAllProducts()
+        .then(({ rows }) => {
+            console.log("Got all products from table:", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("err in getting all products from table", err);
+        });
+});
+
 // LOGOUT ROUTE
 app.get("/logout", function (req, res) {
     console.log("logout session userId:", req.session);
