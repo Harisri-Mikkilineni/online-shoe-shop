@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { BrowserRouter, Link, Route } from "react-router-dom";
-import Products from "./components/products";
+import { Products } from "./components/products";
 
 export default class App extends Component {
     constructor() {
@@ -92,8 +92,16 @@ export default class App extends Component {
                             <form action="/logout">
                                 <button className="link">Logout</button>
                             </form>
+
+                            <div>
+                                <Link>
+                                    <img
+                                        className="cart"
+                                        src="https://www.xils-lab.com/images/pannier-grand.png"
+                                    />
+                                </Link>
+                            </div>
                         </section>
-                        <hr></hr>
                     </div>
 
                     <Route path="/products">

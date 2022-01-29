@@ -1,9 +1,9 @@
 import * as actionTypes from "./products_types";
 
-export const addToCart = (productID) => {
+export const addToCart = (id) => {
     return {
         type: actionTypes.ADD_TO_CART,
-        payload: { id: productID },
+        payload: { id },
     };
 };
 

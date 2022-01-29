@@ -59,7 +59,7 @@ export class Registration extends Component {
     render() {
         return (
             <>
-                <h2>Fill the Registration Form</h2>
+                <h2 className="reg_title">Registration Form</h2>
 
                 {this.state.error && (
                     <h2 style={{ color: "red" }}>{this.state.error}</h2>
@@ -101,11 +101,16 @@ export class Registration extends Component {
                         type="address"
                         onChange={this.handleChange}
                     />
-                    <button onClick={this.handleSubmit}>Register</button>
+                    <br />
+                    <div className="reg_btn_box">
+                        <button className="reg_btn" onClick={this.handleSubmit}>
+                            Register
+                        </button>
 
-                    <Link className="login_btn" to="/login">
-                        Login
-                    </Link>
+                        <Link className="login_btn" to="/login">
+                            Login
+                        </Link>
+                    </div>
                 </form>
             </>
         );

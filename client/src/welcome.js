@@ -9,7 +9,7 @@ export default function Welcome() {
         <>
             <div className="container">
                 <section className="section-top">
-                    <h1 className="title">WELCOME TO ONLINE SHOP</h1>
+                    <h1 className="title">Online SHOE Shop</h1>
                 </section>
 
                 <section className="section-bottom">
