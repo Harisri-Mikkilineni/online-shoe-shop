@@ -78,11 +78,7 @@ export default class App extends Component {
                 <BrowserRouter>
                     <div className="app_bgc">
                         <section id="mainPage">
-                            <img
-                                src="/logo.JPG"
-                                alt="online shop"
-                                id="homepage-logo"
-                            />
+                            <img src="/logo.JPG" alt="online shop" id="logo" />
                             <div>
                                 <Link className="link" to="/products">
                                     Products

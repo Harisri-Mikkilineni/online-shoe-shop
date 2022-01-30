@@ -13,6 +13,11 @@ const productsReducer = (state = INITIAL_STATE, action) => {
         };
     } else if (action.type == actionTypes.LOAD_CURRENT_PRODUCT) {
         return {};
+    } else if (action.type == actionTypes.CHANGE_MODAL) {
+        return {
+            ...state,
+            ...action.payload,
+        };
     } else {
         return state;
     }

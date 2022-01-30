@@ -13,3 +13,10 @@ export const loadCurrentProduct = (product) => {
         payload: product,
     };
 };
+
+export const changeModal = (payload) => {
+    return {
+        type: actionTypes.CHANGE_MODAL,
+        payload,
+    };
+};

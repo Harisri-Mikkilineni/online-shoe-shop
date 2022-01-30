@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
-import { addToCart } from "../redux/products/products_actions";
+import { addToCart, changeModal } from "../redux/products/products_actions";
+import Modal from "react-modal";
 
 export function Products() {
     const [items, setItems] = useState([]);
+    const [ModalIsOpen, setModalIsOpen]  = useState(false);
     const dispatch = useDispatch();
 
     // handleClick = (id) => {
     //     this.props.addToCart(id);
     // };
+
+    const changeModal = (modal) => {
+        const currentModal = {
+            showModal: true,
+            modalType: modal,
+        };
+        this.props.changeModal({ item.id});
+    };
 
     useEffect(() => {
         //Step 1: fetch products
@@ -69,7 +79,14 @@ export function Products() {
                             >
                                 Add To Cart
                             </button>
-                            <button className="add_cart_btn">View Item</button>
+                            <button
+                                className="add_cart_btn"
+                                onClick={() => {
+                                    changeModal(item.id);
+                                }}
+                            >
+                                View Item
+                            </button>
                         </div>
                     </div>
                 ))}
@@ -84,13 +101,17 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addToCart: (id) => {
-            dispatch(addToCart(id));
-        },
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    changeModal: (payload) => dispatch(changeModal(payload)),
+});
+
+// const mapDispatchToProps1 = (dispatch) => {
+//     return {
+//         addToCart: (id) => {
+//             dispatch(addToCart(id));
+//         },
+//     };
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
 
