@@ -138,6 +138,18 @@ form {
     overflow: hidden;
 }
 
+#navbar_cart {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 10vw;
+    height: 10vh;
+    font-size: large;
+    font-weight: bold;
+}
+
 .chat_image {
     height: 50px;
     width: 50px;

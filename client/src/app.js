@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { BrowserRouter, Link, Route } from "react-router-dom";
 import { Products } from "./components/Products/products";
+import SingleProduct from "./components/singleProduct.js";
 
 export default class App extends Component {
     constructor() {
@@ -89,24 +90,21 @@ export default class App extends Component {
                                 <button className="link">Logout</button>
                             </form>
 
-                            <div>
-                                <Link>
-                                    <img
-                                        className="cart"
-                                        src="https://www.xils-lab.com/images/pannier-grand.png"
-                                    />
-                                </Link>
-                            </div>
+                            <Link id="navbar_cart">
+                                <div className="cart_text">Cart</div>
+                                <div className="cart_counter">1</div>
+                            </Link>
                         </section>
                     </div>
 
                     <Route exact path="/" component={Products} />
+                    <Route
+                        exact
+                        path="/product/:id"
+                        component={SingleProduct}
+                    />
 
                     <Route exact path="/products">
-                        <Products />
-                    </Route>
-
-                    <Route exact path="api/product/:id">
                         <Products />
                     </Route>
                 </BrowserRouter>

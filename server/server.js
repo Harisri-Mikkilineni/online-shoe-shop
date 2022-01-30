@@ -191,8 +191,9 @@ app.get("/getAllProducts", (req, res) => {
 });
 
 //GET PRODUCT BY ID
-app.get("/api/products/:id", (req, res) => {
+app.get("/product/:id", (req, res) => {
     console.log("selected product on server side", req.body);
+    console.log("params for selected product on server side", req.params);
     //const search = req.params.search;
     db.getProductById(req.params.id)
         .then(({ rows }) => {

@@ -12,6 +12,8 @@ const productsReducer = (state = INITIAL_STATE, action) => {
         const prod = state.products.find(
             (item) => item.id === action.payload.id
         );
+
+        console.log("prod in reducer:", prod);
         //code to add product to state
         const inCart = state.cart.find((prod) =>
             prod.id === action.payload.id ? true : false

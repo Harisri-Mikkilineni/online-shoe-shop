@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../redux/products_actions";
 
 import { connect } from "react-redux";
 import Product from "./product.js";
 
 export function Products() {
+    const dispatch = useDispatch(); // to dispatch state
     const [items, setItems] = useState([]);
 
     // handleClick = (id) => {
@@ -19,8 +22,11 @@ export function Products() {
                 //recieve data back
                 console.log("all products data:", data);
                 setItems(data);
+                dispatch(addToCart(data));
             });
     }, []);
+
+    console.log("items:", items);
 
     // const handleAddToCart = (id) => {
     //     console.log("button was clicked");
@@ -59,7 +65,7 @@ export function Products() {
 
 const mapStateToProps = (state) => {
     return {
-        items: state.items,
+        items: state.productsList.items,
     };
 };
 

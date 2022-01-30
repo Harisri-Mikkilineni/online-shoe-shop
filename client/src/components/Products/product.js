@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { addToCart } from "../../redux/products_actions";
+import { addToCart, loadCurrentProduct } from "../../redux/products_actions";
 
-const Product = ({ productData, addToCart }) => {
+const Product = ({ productData, addToCart, loadCurrentProduct }) => {
     /* Now we need product id which should be passed from products page*/
 
     console.log("selected product id", productData.id);
@@ -24,8 +24,13 @@ const Product = ({ productData, addToCart }) => {
                         <p>{productData.product_description}</p>
                     </div>
                     <div className="btn_box">
-                        <Link to={`/product/someid`}>
-                            <button className="add_cart_btn">View Item</button>
+                        <Link to={`/product/${productData.id}`}>
+                            <button
+                                onClick={() => loadCurrentProduct(productData)}
+                                className="add_cart_btn"
+                            >
+                                View Item
+                            </button>
                         </Link>
                         <button
                             onClick={() => addToCart(productData.id)}
@@ -43,6 +48,7 @@ const Product = ({ productData, addToCart }) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addToCart: (id) => dispatch(addToCart(id)),
+        loadCurrentProduct: (product) => dispatch(loadCurrentProduct(product)),
     };
 };
 
