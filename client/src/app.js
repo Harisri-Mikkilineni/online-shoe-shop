@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { BrowserRouter, Link, Route } from "react-router-dom";
-import { Products } from "./components/products";
+import { Products } from "./components/Products/products";
 
 export default class App extends Component {
     constructor() {
