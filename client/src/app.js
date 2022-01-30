@@ -100,7 +100,13 @@ export default class App extends Component {
                         </section>
                     </div>
 
-                    <Route path="/products">
+                    <Route exact path="/" component={Products} />
+
+                    <Route exact path="/products">
+                        <Products />
+                    </Route>
+
+                    <Route exact path="api/product/:id">
                         <Products />
                     </Route>
                 </BrowserRouter>

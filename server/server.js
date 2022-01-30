@@ -190,6 +190,20 @@ app.get("/getAllProducts", (req, res) => {
         });
 });
 
+//GET PRODUCT BY ID
+app.get("/api/products/:id", (req, res) => {
+    console.log("selected product on server side", req.body);
+    //const search = req.params.search;
+    db.getProductById(req.params.id)
+        .then(({ rows }) => {
+            console.log("Got other product by id:", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("err in getting  product by id", err);
+        });
+});
+
 // LOGOUT ROUTE
 app.get("/logout", function (req, res) {
     console.log("logout session userId:", req.session);

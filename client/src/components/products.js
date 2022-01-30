@@ -1,25 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
-import { addToCart, changeModal } from "../redux/products/products_actions";
-import Modal from "react-modal";
+import { addToCart } from "../redux/products/products_actions";
+import Product from "../redux/products/product/product";
 
 export function Products() {
     const [items, setItems] = useState([]);
-    const [ModalIsOpen, setModalIsOpen]  = useState(false);
     const dispatch = useDispatch();
 
     // handleClick = (id) => {
     //     this.props.addToCart(id);
     // };
-
-    const changeModal = (modal) => {
-        const currentModal = {
-            showModal: true,
-            modalType: modal,
-        };
-        this.props.changeModal({ item.id});
-    };
 
     useEffect(() => {
         //Step 1: fetch products
@@ -60,34 +51,7 @@ export function Products() {
             <div className="products_container">
                 {items.map((item) => (
                     <div className="products_card" key={item.id}>
-                        <img
-                            src={item.product_image_url}
-                            alt={`${item.product_name}`}
-                            id="product_pic"
-                        />
-                        <div className="product_description">
-                            <h4> {item.product_name} </h4>
-                            <p>{item.product_price + "€"}</p>
-                            <p>{item.product_description}</p>
-                        </div>
-                        <div className="btn_box">
-                            <button
-                                className="add_cart_btn"
-                                onClick={() => {
-                                    handleAddToCart(item.id);
-                                }}
-                            >
-                                Add To Cart
-                            </button>
-                            <button
-                                className="add_cart_btn"
-                                onClick={() => {
-                                    changeModal(item.id);
-                                }}
-                            >
-                                View Item
-                            </button>
-                        </div>
+                        <Product key={item.id} productData={item} />
                     </div>
                 ))}
             </div>
@@ -101,17 +65,17 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    changeModal: (payload) => dispatch(changeModal(payload)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//     changeModal: (payload) => dispatch(changeModal(payload)),
+// });
 
-// const mapDispatchToProps1 = (dispatch) => {
-//     return {
-//         addToCart: (id) => {
-//             dispatch(addToCart(id));
-//         },
-//     };
-// };
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCart: (id) => {
+            dispatch(addToCart(id));
+        },
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
 
