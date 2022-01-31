@@ -8,16 +8,9 @@ export default class App extends Component {
         super();
         this.state = {
             uploaderIsVisible: false,
-            bio: "bio",
-            first: "first",
-            last: "last",
-            url: "url",
         };
         this.toggleUploader = this.toggleUploader.bind(this);
         this.logNameOtherStuff = this.logNameOtherStuff.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.changeImage = this.changeImage.bind(this);
-        this.updateProfileBio = this.updateProfileBio.bind(this);
     }
 
     componentDidMount() {
@@ -47,30 +40,11 @@ export default class App extends Component {
         });
     }
 
-    changeImage(image_url) {
-        console.log("my url image:", image_url);
-        this.setState({
-            uploaderIsVisible: !this.state.uploaderIsVisible,
-            url: image_url,
-        });
-    }
-
     logNameOtherStuff(val) {
         console.log(this.state.name + val);
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
-    }
-
-    closeModal() {
-        this.setState({
-            uploaderIsVisible: !this.state.uploaderIsVisible,
-        });
-    }
-
-    updateProfileBio(bio) {
-        console.log("update profile Bio method:", bio);
-        this.setState({ bio: bio });
     }
 
     render() {

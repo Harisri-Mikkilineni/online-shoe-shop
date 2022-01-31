@@ -1,5 +1,19 @@
 import * as actionTypes from "./products_types";
 
+export const loadProducts = (products) => {
+    return {
+        type: actionTypes.LOAD_PRODUCTS,
+        payload: { products },
+    };
+};
+
+export const loadCurrentProduct = (product) => {
+    return {
+        type: actionTypes.LOAD_CURRENT_PRODUCT,
+        payload: product,
+    };
+};
+
 export const addToCart = (itemID) => {
     return {
         type: actionTypes.ADD_TO_CART,
@@ -11,13 +25,6 @@ export const deleteFromCart = (itemID) => {
     return {
         type: actionTypes.DELETE_FROM_CART,
         payload: { id: itemID },
-    };
-};
-
-export const loadCurrentProduct = (product) => {
-    return {
-        type: actionTypes.LOAD_CURRENT_PRODUCT,
-        payload: product,
     };
 };
 

@@ -7,7 +7,19 @@ const INITIAL_STATE = {
 };
 
 const productsReducer = (state = INITIAL_STATE, action) => {
-    if (action.type === actionTypes.ADD_TO_CART) {
+    if (action.type === actionTypes.LOAD_PRODUCTS) {
+        console.log("action.payload:", action.payload);
+        console.log("state :", state);
+        return {
+            ...state,
+            products: action.payload.products,
+        };
+    } else if (action.type === actionTypes.LOAD_CURRENT_PRODUCT) {
+        return {
+            ...state,
+            currentProduct: action.payload.product,
+        };
+    } else if (action.type === actionTypes.ADD_TO_CART) {
         //get items from products array
         const prod = state.products.find(
             (item) => item.id === action.payload.id
@@ -34,11 +46,6 @@ const productsReducer = (state = INITIAL_STATE, action) => {
         return {
             ...state,
             cart: state.cart.filter((prod) => prod.id != action.payload.id),
-        };
-    } else if (action.type === actionTypes.LOAD_CURRENT_PRODUCT) {
-        return {
-            ...state,
-            currentProduct: action.payload,
         };
     } else if (action.type === actionTypes.ADJUST_QTY) {
         return {

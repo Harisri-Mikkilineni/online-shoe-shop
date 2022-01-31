@@ -1,14 +1,19 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { addToCart } from "../redux/products_actions";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadCurrentProduct, addToCart } from "../redux/products_actions";
 import { useParams, useHistory } from "react-router";
 
 const SingleProduct = ({ currentProduct, addToCart }) => {
     console.log("current product in SingleComponent:", currentProduct);
     const { id } = useParams();
     const history = useHistory();
-    const [singleItem, setSingleItem] = useState();
+    const dispatch = useDispatch(); // to dispatch state
+
+    const selectedProduct = useSelector(
+        (state) => state.productsList.currentProduct
+    );
+    console.log("products from global state:", selectedProduct);
 
     useEffect(() => {
         //Step 1: fetch products
@@ -21,28 +26,28 @@ const SingleProduct = ({ currentProduct, addToCart }) => {
                 if (data.success === false) {
                     history.replace("/");
                 } else {
-                    setSingleItem(data);
+                    dispatch(loadCurrentProduct(data));
                 }
             });
     }, [id]);
 
-    console.log("data in single item:", singleItem);
+    console.log("data in single item:", selectedProduct);
 
     return (
         <>
-            <div className="single_product" key={singleItem.id}>
+            <div className="single_product" key={selectedProduct.id}>
                 <img
-                    src={singleItem.product_image_url}
-                    alt={`${singleItem.product_name}`}
+                    src={selectedProduct.product_image_url}
+                    alt={`${selectedProduct.product_name}`}
                     id="product_pic"
                 />
                 <div className="product_description">
-                    <h4> {singleItem.product_name} </h4>
-                    <p>{singleItem.product_price + "€"}</p>
-                    <p>{singleItem.product_description}</p>
+                    <h4> {selectedProduct.product_name} </h4>
+                    <p>{selectedProduct.product_price + "€"}</p>
+                    <p>{selectedProduct.product_description}</p>
                 </div>
                 <button
-                    onClick={() => addToCart(singleItem.id)}
+                    onClick={() => addToCart(selectedProduct.id)}
                     className="add_cart_btn"
                 >
                     Add To Cart
@@ -52,16 +57,4 @@ const SingleProduct = ({ currentProduct, addToCart }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        currentProduct: state.productsList.singleItem,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addToCart: (id) => dispatch(addToCart(id)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
+export default SingleProduct;

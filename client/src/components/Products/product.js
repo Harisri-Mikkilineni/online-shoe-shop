@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 import { addToCart, loadCurrentProduct } from "../../redux/products_actions";
 
@@ -45,11 +44,4 @@ const Product = ({ productData, addToCart, loadCurrentProduct }) => {
     );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addToCart: (id) => dispatch(addToCart(id)),
-        loadCurrentProduct: (product) => dispatch(loadCurrentProduct(product)),
-    };
-};
-
-export default connect(null, mapDispatchToProps)(Product);
+export default Product;
