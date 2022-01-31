@@ -12,8 +12,6 @@ const SingleProduct = ({ currentProduct }) => {
     const history = useHistory();
     const dispatch = useDispatch(); // to dispatch state
 
-    // const product = useSelector((state) => state.productsList.products);
-
     const selectedProduct = useSelector(
         (state) => state.productsList.currentProduct
     );
@@ -42,7 +40,7 @@ const SingleProduct = ({ currentProduct }) => {
     }
     return (
         <>
-            <div className="single_product" key={selectedProduct.id}>
+            <div className="product_card" key={selectedProduct.id}>
                 <img
                     src={selectedProduct.product_image_url}
                     alt={`${selectedProduct.product_name}`}
@@ -54,7 +52,7 @@ const SingleProduct = ({ currentProduct }) => {
                     <p>{selectedProduct.product_description}</p>
                 </div>
                 <button
-                    onClick={() => addToCart(selectedProduct.id)}
+                    onClick={() => dispatch(addToCart(selectedProduct.id))}
                     className="add_cart_btn"
                 >
                     Add To Cart

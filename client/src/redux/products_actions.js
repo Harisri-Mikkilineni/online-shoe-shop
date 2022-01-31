@@ -15,6 +15,8 @@ export const loadCurrentProduct = (product) => {
 };
 
 export const addToCart = (itemID) => {
+    console.log("item id:", itemID);
+    console.log("action types:", actionTypes);
     return {
         type: actionTypes.ADD_TO_CART,
         payload: { id: itemID },

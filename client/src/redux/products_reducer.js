@@ -7,6 +7,7 @@ const INITIAL_STATE = {
 };
 
 const productsReducer = (state = INITIAL_STATE, action) => {
+    console.log("action in reducer:", action);
     if (action.type === actionTypes.LOAD_PRODUCTS) {
         console.log("action.payload:", action.payload);
         console.log("state :", state);

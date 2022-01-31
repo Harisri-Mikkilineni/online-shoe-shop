@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { addToCart, loadCurrentProduct } from "../../redux/products_actions";
 
 console.log("current product:", loadCurrentProduct);
+console.log("add To Cart:", addToCart);
 
 const Product = ({ productData }) => {
     /* Now we need product id which should be passed from products page*/
@@ -33,12 +34,14 @@ const Product = ({ productData }) => {
                                 View Item
                             </button>
                         </Link>
-                        <button
+                        <Link
+                            to={"/cart"}
                             onClick={() => addToCart(productData.id)}
-                            className="add_cart_btn"
                         >
-                            Add To Cart
-                        </button>
+                            <button className="add_cart_btn">
+                                Add To Cart
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
