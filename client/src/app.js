@@ -64,7 +64,7 @@ export default class App extends Component {
                                 <button className="link">Logout</button>
                             </form>
 
-                            <Link id="navbar_cart">
+                            <Link id="navbar_cart" to="/cart">
                                 <div className="cart_text">Cart</div>
                                 <div className="cart_counter">1</div>
                             </Link>

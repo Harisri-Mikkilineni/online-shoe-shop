@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 
 import { addToCart, loadCurrentProduct } from "../../redux/products_actions";
 
-const Product = ({ productData, addToCart, loadCurrentProduct }) => {
+console.log("current product:", loadCurrentProduct);
+
+const Product = ({ productData }) => {
     /* Now we need product id which should be passed from products page*/
 
     console.log("selected product id", productData.id);
@@ -25,7 +27,7 @@ const Product = ({ productData, addToCart, loadCurrentProduct }) => {
                     <div className="btn_box">
                         <Link to={`/product/${productData.id}`}>
                             <button
-                                onClick={() => loadCurrentProduct(productData)}
+                                // onClick={() => loadCurrentProduct(productData)}
                                 className="add_cart_btn"
                             >
                                 View Item

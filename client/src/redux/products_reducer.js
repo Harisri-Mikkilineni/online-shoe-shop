@@ -15,9 +15,10 @@ const productsReducer = (state = INITIAL_STATE, action) => {
             products: action.payload.products,
         };
     } else if (action.type === actionTypes.LOAD_CURRENT_PRODUCT) {
+        console.log("action payload:", action.payload);
         return {
             ...state,
-            currentProduct: action.payload.product,
+            currentProduct: action.payload,
         };
     } else if (action.type === actionTypes.ADD_TO_CART) {
         //get items from products array
