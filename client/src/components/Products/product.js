@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { addToCart, loadCurrentProduct } from "../../redux/products_actions";
 
@@ -7,6 +8,7 @@ console.log("current product:", loadCurrentProduct);
 console.log("add To Cart:", addToCart);
 
 const Product = ({ productData }) => {
+    const dispatch = useDispatch(); // to dispatch state
     /* Now we need product id which should be passed from products page*/
 
     console.log("selected product id", productData.id);
@@ -36,7 +38,7 @@ const Product = ({ productData }) => {
                         </Link>
                         <Link
                             to={"/cart"}
-                            onClick={() => addToCart(productData.id)}
+                            onClick={() => dispatch(addToCart(productData.id))}
                         >
                             <button className="add_cart_btn">
                                 Add To Cart
