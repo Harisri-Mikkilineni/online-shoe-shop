@@ -68,16 +68,18 @@ const productsReducer = (state = INITIAL_STATE, action) => {
                 ? { ...item, qty: action.payload.qty + 1 }
                 : item
         );
-        console.log("increment value in reducer:", incCart);
+        console.log("incrementing qty in reducer:", incCart);
         return {
             ...state,
             cart: incCart,
         };
     } else if (action.type === actionTypes.DECREMENT_QTY) {
-        const decCart = state.cart.find(
-            (item) => item.id === action.payload.id
+        const decCart = state.cart.map((item) =>
+            item.id === action.payload.id
+                ? { ...item, qty: action.payload.qty - 1 }
+                : item
         );
-        decCart.cart.qty--;
+        console.log("decrementing qty in reducer:", decCart);
         return {
             ...state,
             cart: decCart,
