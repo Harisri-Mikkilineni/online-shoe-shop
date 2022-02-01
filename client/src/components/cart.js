@@ -1,7 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, deleteFromCart } from "../redux/products_actions";
+import {
+    addToCart,
+    deleteFromCart,
+    adjustQty,
+} from "../redux/products_actions";
 import { useParams, useHistory } from "react-router";
 
 console.log("add to carT:", addToCart);
@@ -12,9 +16,9 @@ const Cart = ({ cart }) => {
     const history = useHistory();
     const dispatch = useDispatch(); // to dispatch state
 
-    const addProductsToCart = useSelector((state) => state.productsList.cart);
+    const productsInCart = useSelector((state) => state.productsList.cart);
 
-    console.log("cart from global state:", addProductsToCart);
+    console.log("cart from global state:", productsInCart);
 
     useEffect(() => {
         //Step 1: fetch products
@@ -31,29 +35,30 @@ const Cart = ({ cart }) => {
                 }
             });
     }, []);
-    console.log("data in cart item itemmmm:", addProductsToCart);
+    console.log("data in cart item itemmmm:", productsInCart);
 
     return (
         <>
-            {addProductsToCart &&
-                addProductsToCart.map((addProductToCart) => (
-                    <div className="cart_card" key={addProductToCart.id}>
+            {productsInCart &&
+                productsInCart.map((productInCart) => (
+                    <div className="cart_card" key={productInCart.id}>
                         <img
-                            src={addProductToCart.product_image_url}
-                            alt={`${addProductToCart.product_name}`}
+                            src={productInCart.product_image_url}
+                            alt={`${productInCart.product_name}`}
                             id="product_pic"
                         />
                         <div className="product_description">
-                            <h4> {addProductToCart.product_name} </h4>
-                            <p>{addProductToCart.product_price + "€"}</p>
-                            <p>{addProductToCart.product_description}</p>
-                            <span>qty: {addProductToCart.qty}</span>
+                            <h4> {productInCart.product_name} </h4>
+                            <p>{productInCart.product_price + "€"}</p>
+                            <p>{productInCart.product_description}</p>
+                            <span>qty: {productInCart.qty}</span>
                         </div>
                         <button
                             className="add_cart_btn"
-                            onClick={() =>
-                                dispatch(deleteFromCart(addProductToCart.id))
-                            }
+                            onClick={() => {
+                                dispatch(deleteFromCart(productInCart.id));
+                                dispatch(adjustQty(productInCart.id));
+                            }}
                         >
                             Delete
                         </button>
