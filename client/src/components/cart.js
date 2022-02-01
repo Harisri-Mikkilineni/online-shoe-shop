@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/products_actions";
+import { addToCart, deleteFromCart } from "../redux/products_actions";
 import { useParams, useHistory } from "react-router";
 
 console.log("add to carT:", addToCart);
@@ -49,7 +49,14 @@ const Cart = ({ cart }) => {
                             <p>{addProductToCart.product_description}</p>
                             <span>qty: {addProductToCart.qty}</span>
                         </div>
-                        <button className="add_cart_btn">Delete</button>
+                        <button
+                            className="add_cart_btn"
+                            onClick={() =>
+                                dispatch(deleteFromCart(addProductToCart.id))
+                            }
+                        >
+                            Delete
+                        </button>
                         <button className="add_cart_btn">Checkout</button>
                     </div>
                 ))}

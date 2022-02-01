@@ -37,7 +37,7 @@ const Product = ({ productData }) => {
                             </button>
                         </Link>
                         <Link
-                            to={"/cart"}
+                            // to={"/cart"}
                             onClick={() => dispatch(addToCart(productData.id))}
                         >
                             <button className="add_cart_btn">
