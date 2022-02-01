@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadCurrentProduct, addToCart } from "../redux/products_actions";
 import { useParams, useHistory } from "react-router";
@@ -51,12 +52,12 @@ const SingleProduct = ({ currentProduct }) => {
                     <p>{selectedProduct.product_price + "€"}</p>
                     <p>{selectedProduct.product_description}</p>
                 </div>
-                <button
+                <Link
+                    to={"/cart"}
                     onClick={() => dispatch(addToCart(selectedProduct.id))}
-                    className="add_cart_btn"
                 >
-                    Add To Cart
-                </button>
+                    <button className="add_cart_btn">Add To Cart</button>
+                </Link>
             </div>
         </>
     );

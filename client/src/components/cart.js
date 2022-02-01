@@ -12,11 +12,9 @@ const Cart = ({ cart }) => {
     const history = useHistory();
     const dispatch = useDispatch(); // to dispatch state
 
-    const selectedProductinCart = useSelector(
-        (state) => state.productsList.cart
-    );
+    const addProductsToCart = useSelector((state) => state.productsList.cart);
 
-    console.log("product from global state:", selectedProductinCart);
+    console.log("cart from global state:", addProductsToCart);
 
     useEffect(() => {
         //Step 1: fetch products
@@ -33,31 +31,28 @@ const Cart = ({ cart }) => {
                 }
             });
     }, []);
-    console.log(
-        "data in selected single item bjhuziup:",
-        selectedProductinCart
-    );
+    console.log("data in cart item itemmmm:", addProductsToCart);
 
-    if (!selectedProductinCart) {
-        return null;
-    }
     return (
         <>
-            <div className="product_card" key={selectedProductinCart.id}>
-                <img
-                    src={selectedProductinCart.product_image_url}
-                    alt={`${selectedProductinCart.product_name}`}
-                    id="product_pic"
-                />
-                <div className="product_description">
-                    <h4> {selectedProductinCart.product_name} </h4>
-                    <p>{selectedProductinCart.product_price + "€"}</p>
-                    <p>{selectedProductinCart.product_description}</p>
-                </div>
-                <button className="add_cart_btn">Delete</button>
-
-                <button className="add_cart_btn">Checkout</button>
-            </div>
+            {addProductsToCart &&
+                addProductsToCart.map((addProductToCart) => (
+                    <div className="cart_card" key={addProductToCart.id}>
+                        <img
+                            src={addProductToCart.product_image_url}
+                            alt={`${addProductToCart.product_name}`}
+                            id="product_pic"
+                        />
+                        <div className="product_description">
+                            <h4> {addProductToCart.product_name} </h4>
+                            <p>{addProductToCart.product_price + "€"}</p>
+                            <p>{addProductToCart.product_description}</p>
+                            <span>qty: {addProductToCart.qty}</span>
+                        </div>
+                        <button className="add_cart_btn">Delete</button>
+                        <button className="add_cart_btn">Checkout</button>
+                    </div>
+                ))}
         </>
     );
 };

@@ -2,6 +2,7 @@ import { Component } from "react";
 import { BrowserRouter, Link, Route } from "react-router-dom";
 import { Products } from "./components/Products/products";
 import SingleProduct from "./components/singleProduct.js";
+import Cart from "./components/cart.js";
 
 export default class App extends Component {
     constructor() {
@@ -80,6 +81,9 @@ export default class App extends Component {
 
                     <Route exact path="/products">
                         <Products />
+                    </Route>
+                    <Route exact path="/cart">
+                        <Cart />
                     </Route>
                 </BrowserRouter>
             </>
