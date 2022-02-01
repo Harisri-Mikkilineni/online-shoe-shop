@@ -129,7 +129,7 @@ form {
     justify-content: center;
     align-items: center;
     background-color: #ececec;
-    height: 150px;
+    height: 200px;
     width: auto;
     margin-right: 300px;
     margin-left: 50px;
@@ -151,11 +151,22 @@ form {
     align-self: center;
 }
 
+.cart_buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
 .add_cart_btn {
     padding: 5px;
     cursor: pointer;
     color: white;
     background-color: #5da2d5;
+}
+
+.inc_or_dec_cartItems {
+    display: flex;
+    font-size: large;
+    font-weight: bold;
 }
 
 .btn_box {
@@ -252,31 +263,6 @@ login-link {
     right: 20px;
 }
 
-.modal {
-    position: relative;
-    display: flex;
-    z-index: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: lightblue;
-    border: solid black 1px;
-    margin-left: 350px;
-    margin-top: 1px;
-    height: 400px;
-    width: 600px;
-}
-
-.x_close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-.friend_button {
-    width: 180px;
-    height: 30px;
-}
 #mainPage {
     display: flex;
     flex-direction: row;

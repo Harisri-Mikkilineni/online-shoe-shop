@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadCurrentProduct, addToCart } from "../redux/products_actions";
 import { useParams, useHistory } from "react-router";
 
-console.log("current loaded product in single product:", loadCurrentProduct);
-
 const SingleProduct = ({ currentProduct }) => {
     console.log("current product in SingleComponent:", currentProduct);
     const { id } = useParams();

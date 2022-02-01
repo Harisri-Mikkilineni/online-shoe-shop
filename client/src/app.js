@@ -2,9 +2,10 @@ import { Component } from "react";
 import { BrowserRouter, Link, Route } from "react-router-dom";
 import { Products } from "./components/Products/products";
 import SingleProduct from "./components/singleProduct.js";
-import Cart from "./components/cart.js";
+import Cart from "./components/Cart/cart.js";
+import { connect } from "react-redux";
 
-export default class App extends Component {
+export class App extends Component {
     constructor() {
         super();
         this.state = {
@@ -49,6 +50,7 @@ export default class App extends Component {
     }
 
     render() {
+        console.log("props:", this.props);
         return (
             <>
                 <BrowserRouter>
@@ -66,8 +68,10 @@ export default class App extends Component {
                             </form>
 
                             <Link id="navbar_cart" to="/cart">
-                                <div className="cart_text">Cart</div>
-                                <div className="cart_counter">1</div>
+                                <div className="cart_text">Cart: </div>
+                                <div className="cart_counter">
+                                    {this.props.cartProp.length}
+                                </div>
                             </Link>
                         </section>
                     </div>
@@ -90,3 +94,11 @@ export default class App extends Component {
         );
     }
 }
+
+const mapStateToProps = function (state) {
+    return {
+        cartProp: state.productsList.cart,
+    };
+};
+
+export default connect(mapStateToProps)(App);

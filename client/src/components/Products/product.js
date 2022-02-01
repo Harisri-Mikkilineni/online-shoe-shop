@@ -2,16 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { addToCart, loadCurrentProduct } from "../../redux/products_actions";
-
-console.log("current product:", loadCurrentProduct);
-console.log("add To Cart:", addToCart);
+import { addToCart } from "../../redux/products_actions";
 
 const Product = ({ productData }) => {
     const dispatch = useDispatch(); // to dispatch state
     /* Now we need product id which should be passed from products page*/
-
-    console.log("selected product id", productData.id);
 
     return (
         <>
@@ -36,14 +31,13 @@ const Product = ({ productData }) => {
                                 View Item
                             </button>
                         </Link>
-                        <Link
-                            // to={"/cart"}
+
+                        <button
+                            className="add_cart_btn"
                             onClick={() => dispatch(addToCart(productData.id))}
                         >
-                            <button className="add_cart_btn">
-                                Add To Cart
-                            </button>
-                        </Link>
+                            Add To Cart
+                        </button>
                     </div>
                 </div>
             </div>

@@ -23,9 +23,9 @@ export const addToCart = (itemID) => {
     };
 };
 
-export const deleteFromCart = (itemID) => {
+export const removeFromCart = (itemID) => {
     return {
-        type: actionTypes.DELETE_FROM_CART,
+        type: actionTypes.REMOVE_FROM_CART,
         payload: { id: itemID },
     };
 };
@@ -33,6 +33,26 @@ export const deleteFromCart = (itemID) => {
 export const adjustQty = (itemID, value) => {
     return {
         type: actionTypes.ADJUST_QTY,
+        payload: {
+            id: itemID,
+            qty: value,
+        },
+    };
+};
+
+export const incrementQty = (itemID, value) => {
+    return {
+        type: actionTypes.INCREMENT_QTY,
+        payload: {
+            id: itemID,
+            qty: value,
+        },
+    };
+};
+
+export const decrementQty = (itemID, value) => {
+    return {
+        type: actionTypes.DECREMENT_QTY,
         payload: {
             id: itemID,
             qty: value,

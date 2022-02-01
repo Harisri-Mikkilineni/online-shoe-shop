@@ -8,6 +8,9 @@ const INITIAL_STATE = {
 
 const productsReducer = (state = INITIAL_STATE, action) => {
     console.log("action in reducer:", action);
+    console.log("action.payload in reducer:", action.payload);
+
+    // we can use switch case instead of if else if
     if (action.type === actionTypes.LOAD_PRODUCTS) {
         console.log("action.payload:", action.payload);
         console.log("state :", state);
@@ -43,7 +46,7 @@ const productsReducer = (state = INITIAL_STATE, action) => {
                 : [...state.cart, { ...prod, qty: 1 }],
             //return it and access
         };
-    } else if (action.type === actionTypes.DELETE_FROM_CART) {
+    } else if (action.type === actionTypes.REMOVE_FROM_CART) {
         //check if item is already in cart
         return {
             ...state,
@@ -57,6 +60,27 @@ const productsReducer = (state = INITIAL_STATE, action) => {
                     ? { ...prod, qty: action.payload.qty }
                     : prod
             ),
+        };
+    } else if (action.type === actionTypes.INCREMENT_QTY) {
+        //find product with specific id and change qty
+        const incCart = state.cart.map((item) =>
+            item.id === action.payload.id
+                ? { ...item, qty: action.payload.qty + 1 }
+                : item
+        );
+        console.log("increment value in reducer:", incCart);
+        return {
+            ...state,
+            cart: incCart,
+        };
+    } else if (action.type === actionTypes.DECREMENT_QTY) {
+        const decCart = state.cart.find(
+            (item) => item.id === action.payload.id
+        );
+        decCart.cart.qty--;
+        return {
+            ...state,
+            cart: decCart,
         };
     } else {
         return state;

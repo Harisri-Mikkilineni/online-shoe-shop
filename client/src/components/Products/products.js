@@ -7,7 +7,6 @@ export function Products() {
     const dispatch = useDispatch(); // to dispatch state
 
     // useSElector to get items from redux global state
-
     const loadedProducts = useSelector((state) => state.productsList.products);
     console.log("products from global state:", loadedProducts);
 
