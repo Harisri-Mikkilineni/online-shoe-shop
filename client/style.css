@@ -238,17 +238,6 @@ form {
     margin-right: 10px;
 }
 
-span {
-    display: flex;
-    direction: row;
-    align-items: center;
-    row-gap: 10px;
-    column-gap: 20px;
-    border: 0.5px solid grey;
-    text-align: center;
-    background-color: rgb(112, 195, 228);
-}
-
 .bio_editor {
     display: flex;
     flex-direction: column;
@@ -321,4 +310,27 @@ input {
 
 .find_users_container {
     margin-left: 10px;
+}
+
+.checkout {
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+    position: absolute;
+    top: 15.5%;
+    right: 2%;
+    align-items: center;
+    justify-content: center;
+    background-color: #ececec;
+    width: 200px;
+    height: 300px;
+    margin-top: 50px;
+    margin-right: 50px;
+    border: 1px solid rgb(112, 195, 228);
+    border-radius: 5px;
+}
+
+#size {
+    border: 1px solid rgb(112, 195, 228);
+    width: 20px;
 }

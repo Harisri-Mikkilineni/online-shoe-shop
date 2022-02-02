@@ -35,6 +35,7 @@ const Cart = ({ cart }) => {
     return (
         <>
             <h3 className="product_heading">Products added to Cart</h3>
+
             {productsInCart &&
                 productsInCart.map((productInCart) => (
                     <CartItems
@@ -42,6 +43,15 @@ const Cart = ({ cart }) => {
                         productInCart={productInCart}
                     />
                 ))}
+
+            <div className="checkout">
+                <h3>Cart Summary</h3>
+                <span>Total: {}€</span>
+
+                <button className="add_cart_btn" onClick={() => {}}>
+                    Proceed to Checkout
+                </button>
+            </div>
         </>
     );
 };

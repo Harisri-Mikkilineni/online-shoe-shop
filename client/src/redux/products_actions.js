@@ -59,3 +59,13 @@ export const decrementQty = (itemID, value) => {
         },
     };
 };
+
+export const checkout = (itemID, value) => {
+    return {
+        type: actionTypes.CHECKOUT,
+        payload: {
+            id: itemID,
+            qty: value,
+        },
+    };
+};

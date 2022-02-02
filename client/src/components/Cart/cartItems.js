@@ -24,7 +24,18 @@ const CartItem = ({ productInCart }) => {
                     <h4> {productInCart.product_name} </h4>
                     <p>{productInCart.product_price + "€"}</p>
                     <p>{productInCart.product_description}</p>
-                    <span>qty: {productInCart.qty}</span>
+                    <span>
+                        Shoe size:
+                        <input
+                            min="4"
+                            max="10"
+                            id="size"
+                            name="size"
+                            placeholder=""
+                        />
+                    </span>
+                    <br />
+                    qty: {productInCart.qty}
                     <span>
                         Total: {productInCart.product_price * productInCart.qty}{" "}
                         €
@@ -69,7 +80,6 @@ const CartItem = ({ productInCart }) => {
                         >
                             Remove All
                         </button>
-                        <button className="add_cart_btn">Checkout</button>
                     </div>
                 </div>
             </div>
