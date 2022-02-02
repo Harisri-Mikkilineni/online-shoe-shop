@@ -78,7 +78,7 @@ const CartItem = ({ productInCart }) => {
                                 dispatch(adjustQty(productInCart.id));
                             }}
                         >
-                            Remove All
+                            Remove
                         </button>
                     </div>
                 </div>

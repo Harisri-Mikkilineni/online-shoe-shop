@@ -46,6 +46,7 @@ const Cart = ({ cart }) => {
 
             <div className="checkout">
                 <h3>Cart Summary</h3>
+
                 <span>Total: {}€</span>
 
                 <button className="add_cart_btn" onClick={() => {}}>

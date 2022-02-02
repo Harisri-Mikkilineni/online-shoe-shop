@@ -23,11 +23,6 @@ export class App extends Component {
                 console.log("data on the navigation:", data);
                 this.setState({
                     id: data.id,
-                    first: data.first,
-                    last: data.last,
-                    url: data.image_url,
-                    email: data.email,
-                    bio: data.bio,
                 });
             })
             .catch((err) => {

@@ -26,7 +26,7 @@ export function Products() {
 
     return (
         <>
-            <h3 className="product_heading">These are list of products</h3>
+            <h3 className="product_heading"></h3>
             <div className="products_container">
                 {loadedProducts &&
                     loadedProducts.map((loadedProduct) => (
