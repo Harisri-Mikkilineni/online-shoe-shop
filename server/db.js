@@ -82,3 +82,18 @@ module.exports.getAllProducts = () => {
     LIMIT 10`;
     return db.query(q);
 };
+
+module.exports.addCheckoutDetails = (
+    cardholder_name,
+    email,
+    card_number,
+    billing_address
+) => {
+    const q = `INSERT INTO checkout(cardholder_name,
+    email,
+    card_number,
+    billing_address)
+    VALUES($1, $2, $3, $4) RETURNING id`;
+    const params = [cardholder_name, email, card_number, billing_address];
+    return db.query(q, params);
+};

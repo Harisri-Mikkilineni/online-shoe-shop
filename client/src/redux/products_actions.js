@@ -69,3 +69,12 @@ export const checkout = (itemID, value) => {
         },
     };
 };
+export const changeChartColor = (itemID, value) => {
+    return {
+        type: actionTypes.CHANGE_COLOR,
+        payload: {
+            id: itemID,
+            qty: value,
+        },
+    };
+};

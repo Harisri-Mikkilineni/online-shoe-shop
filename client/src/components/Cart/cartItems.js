@@ -15,31 +15,36 @@ const CartItem = ({ productInCart }) => {
     return (
         <>
             <div className="cart_card" key={productInCart.id}>
-                <img
-                    src={productInCart.product_image_url}
-                    alt={`${productInCart.product_name}`}
-                    id="product_pic"
-                />
-                <div className="product_description">
+                <div className="img_cart">
+                    <img
+                        src={productInCart.product_image_url}
+                        alt={`${productInCart.product_name}`}
+                        id="product_pic"
+                    />
+                </div>
+
+                <div className="product_description_cart">
                     <h4> {productInCart.product_name} </h4>
-                    <p>{productInCart.product_price + "€"}</p>
                     <p>{productInCart.product_description}</p>
                     <span>
                         Shoe size:
                         <input
+                            type="number"
                             min="4"
                             max="10"
                             id="size"
                             name="size"
-                            placeholder=""
+                            placeholder="4"
                         />
+                        <p>{productInCart.product_price + "€"}</p>
                     </span>
-                    <br />
-                    qty: {productInCart.qty}
-                    <span>
-                        Total: {productInCart.product_price * productInCart.qty}{" "}
-                        €
-                    </span>
+                    <div>
+                        Quantity: {productInCart.qty}{" "}
+                        <span>
+                            Total:{" "}
+                            {productInCart.product_price * productInCart.qty} €
+                        </span>
+                    </div>
                 </div>
                 <div className="cart_buttons">
                     <div className="inc_or_dec_cartItems">

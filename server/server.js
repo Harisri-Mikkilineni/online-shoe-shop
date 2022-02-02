@@ -218,6 +218,29 @@ app.get("/navigation.json", (req, res) => {
         .catch((err) => console.log("err in opening modal:", err));
 });
 
+//POST CHECKOUT ROUTE
+app.post("/checkout.json", (req, res) => {
+    console.log("body:", req.body);
+    const data = req.body;
+    const email = data.email;
+    const cardNumber = data.card_number;
+    const cardholderName = data.cardholder_name;
+    const billingAddress = data.billing_address;
+    console.log(
+        "user data:",
+        email,
+        cardNumber,
+        cardholderName,
+        billingAddress
+    );
+    db.addUsers(email, cardNumber, email, cardholderName, billingAddress)
+        .then(({ rows }) => {
+            res.json(rows[0]);
+            res.json({ success: true });
+        })
+        .catch((err) => console.log("err in adding checkout details:", err));
+});
+
 // LOGOUT ROUTE
 app.get("/logout", function (req, res) {
     console.log("logout session userId:", req.session);

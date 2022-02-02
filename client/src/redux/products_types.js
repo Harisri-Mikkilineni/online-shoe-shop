@@ -6,4 +6,4 @@ export const ADJUST_QTY = "ADJUST_QTY";
 export const INCREMENT_QTY = "INCREMENT_QTY";
 export const DECREMENT_QTY = "DECREMENT_QTY";
 export const CHECKOUT = "CHECKOUT";
-
+export const CHANGE_COLOR = "CHANGE_COLOR";

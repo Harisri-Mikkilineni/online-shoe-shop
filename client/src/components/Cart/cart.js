@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/products_actions";
 import CartItems from "./cartItems.js";
@@ -34,7 +35,7 @@ const Cart = ({ cart }) => {
 
     return (
         <>
-            <h3 className="product_heading">Products added to Cart</h3>
+            <h3 className="product_heading"></h3>
 
             {productsInCart &&
                 productsInCart.map((productInCart) => (
@@ -55,7 +56,7 @@ const Cart = ({ cart }) => {
                 </div>
 
                 <span>
-                    Total Price:
+                    Total Price:{" "}
                     {productsInCart.reduce(
                         (a, b) => a + b.product_price * b.qty,
                         0
@@ -63,9 +64,11 @@ const Cart = ({ cart }) => {
                     €
                 </span>
 
-                <button className="add_cart_btn" onClick={() => {}}>
-                    Proceed to Checkout
-                </button>
+                <Link to={"/checkout"}>
+                    <button className="add_cart_btn">
+                        Proceed to Checkout
+                    </button>
+                </Link>
             </div>
         </>
     );

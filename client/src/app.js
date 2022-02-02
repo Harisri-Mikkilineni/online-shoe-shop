@@ -4,6 +4,7 @@ import { Products } from "./components/Products/products";
 import SingleProduct from "./components/singleProduct.js";
 import Cart from "./components/Cart/cart.js";
 import { connect } from "react-redux";
+import Checkout from "./components/checkout.js";
 
 export class App extends Component {
     constructor() {
@@ -49,13 +50,15 @@ export class App extends Component {
     }
 
     render() {
+        const cartCount = this.props.cartProp.reduce((a, b) => a + b.qty, 0);
+
         console.log("props:", this.props);
         return (
             <>
                 <BrowserRouter>
                     <div className="app_bgc">
                         <section id="mainPage">
-                            <img src="/logo.JPG" alt="online shop" id="logo" />
+                            <img src="/logoo.png" alt="online shop" id="logo" />
                             <div>
                                 <Link className="link" to="/products">
                                     Products
@@ -68,11 +71,15 @@ export class App extends Component {
 
                             <Link id="navbar_cart" to="/cart">
                                 <div className="cart_text">Cart: </div>
-                                <div className="cart_counter">
-                                    {this.props.cartProp.reduce(
-                                        (a, b) => a + b.qty,
-                                        0
-                                    )}
+                                {/* <img src="" id="logo" /> */}
+                                <div
+                                    className={
+                                        cartCount
+                                            ? "counter_red"
+                                            : "counter_black"
+                                    }
+                                >
+                                    {cartCount}
                                 </div>
                             </Link>
                         </section>
@@ -91,6 +98,9 @@ export class App extends Component {
                     <Route exact path="/cart">
                         <Cart />
                     </Route>
+                    <Route exact path="/checkout">
+                        <Checkout />
+                    </Route>
                 </BrowserRouter>
             </>
         );
@@ -100,6 +110,7 @@ export class App extends Component {
 const mapStateToProps = function (state) {
     return {
         cartProp: state.productsList.cart,
+        changeColor: state.productsList.changeColor,
     };
 };
 

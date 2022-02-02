@@ -40,11 +40,14 @@ const SingleProduct = ({ currentProduct }) => {
     return (
         <>
             <div className="product_card" key={selectedProduct.id}>
-                <img
-                    src={selectedProduct.product_image_url}
-                    alt={`${selectedProduct.product_name}`}
-                    id="product_pic"
-                />
+                <div>
+                    <img
+                        src={selectedProduct.product_image_url}
+                        alt={`${selectedProduct.product_name}`}
+                        id="product_pic_single"
+                    />
+                </div>
+
                 <div className="product_description">
                     <h4> {selectedProduct.product_name} </h4>
                     <p>{selectedProduct.product_price + "€"}</p>
