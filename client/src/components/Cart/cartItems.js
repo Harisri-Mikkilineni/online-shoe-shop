@@ -59,7 +59,7 @@ const CartItem = ({ productInCart }) => {
                         <button
                             className="add_cart_btn"
                             onClick={() => {
-                                if (productInCart.qty <= 0) {
+                                if (productInCart.qty <= 1) {
                                     return;
                                 } else {
                                     dispatch(

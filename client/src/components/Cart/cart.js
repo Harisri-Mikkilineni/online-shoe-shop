@@ -47,7 +47,21 @@ const Cart = ({ cart }) => {
             <div className="checkout">
                 <h3>Cart Summary</h3>
 
-                <span>Total: {}€</span>
+                <div className="cart_counter">
+                    <span>
+                        Total Items:{" "}
+                        {productsInCart.reduce((a, b) => a + b.qty, 0)}
+                    </span>
+                </div>
+
+                <span>
+                    Total Price:
+                    {productsInCart.reduce(
+                        (a, b) => a + b.product_price * b.qty,
+                        0
+                    )}
+                    €
+                </span>
 
                 <button className="add_cart_btn" onClick={() => {}}>
                     Proceed to Checkout
