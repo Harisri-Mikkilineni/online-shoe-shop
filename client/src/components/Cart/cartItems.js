@@ -58,14 +58,18 @@ const CartItem = ({ productInCart }) => {
                         </button>
                         <button
                             className="add_cart_btn"
-                            onClick={() =>
-                                dispatch(
-                                    decrementQty(
-                                        productInCart.id,
-                                        productInCart.qty
-                                    )
-                                )
-                            }
+                            onClick={() => {
+                                if (productInCart.qty <= 0) {
+                                    return;
+                                } else {
+                                    dispatch(
+                                        decrementQty(
+                                            productInCart.id,
+                                            productInCart.qty
+                                        )
+                                    );
+                                }
+                            }}
                         >
                             -
                         </button>

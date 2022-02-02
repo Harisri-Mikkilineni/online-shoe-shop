@@ -30,6 +30,10 @@ export class App extends Component {
             });
     }
 
+    componentDidUpdate() {
+        console.log("props in update:", this.props);
+    }
+
     toggleUploader() {
         console.log("button was clicked");
         this.setState({
@@ -65,7 +69,10 @@ export class App extends Component {
                             <Link id="navbar_cart" to="/cart">
                                 <div className="cart_text">Cart: </div>
                                 <div className="cart_counter">
-                                    {this.props.cartProp.length}
+                                    {this.props.cartProp.reduce(
+                                        (a, b) => a + b.qty,
+                                        0
+                                    )}
                                 </div>
                             </Link>
                         </section>
