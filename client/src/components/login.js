@@ -77,7 +77,12 @@ class Login extends Component {
                         <Link to="/resetPassword">Reset Password</Link>
                     </div>
                     <div>
-                        <button onClick={this.handleLogin}>Login</button>
+                        <button
+                            className="add_cart_btn"
+                            onClick={this.handleLogin}
+                        >
+                            Login
+                        </button>
                     </div>
                 </form>
             </>

@@ -325,3 +325,10 @@ input {
     width: 36px;
     height: 30px;
 }
+
+footer {
+    position: fixed;
+    margin-left: 45%;
+    bottom: 0;
+    font-size: 10px;
+}
