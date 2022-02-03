@@ -82,8 +82,8 @@ const Checkout = () => {
             {showMessage && (
                 <div>
                     <h3>
-                        Your Order was successful. Products will be delivered in
-                        2-3 working days.
+                        Your Order #OSS4567891 was successful. Products will be
+                        delivered in 2-3 working days.
                     </h3>
                     <h3>Thank you for shopping with us!</h3>
                 </div>

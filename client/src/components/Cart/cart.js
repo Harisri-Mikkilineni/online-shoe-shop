@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../redux/products_actions";
+import { addToCart, clearCart } from "../../redux/products_actions";
 import CartItems from "./cartItems.js";
 
 import { useParams, useHistory } from "react-router";
@@ -66,7 +66,10 @@ const Cart = ({ cart }) => {
                 </span>
 
                 <Link to={"/checkout"}>
-                    <button className="add_cart_btn">
+                    <button
+                        className="add_cart_btn"
+                        onClick={() => dispatch(clearCart())}
+                    >
                         Proceed to Checkout
                     </button>
                 </Link>

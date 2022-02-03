@@ -111,6 +111,7 @@ const mapStateToProps = function (state) {
     return {
         cartProp: state.productsList.cart,
         changeColor: state.productsList.changeColor,
+        clearCart: state.productsList.clearCart,
     };
 };
 

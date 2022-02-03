@@ -78,3 +78,13 @@ export const changeChartColor = (itemID, value) => {
         },
     };
 };
+
+export const clearCart = (itemID, value) => {
+    return {
+        type: actionTypes.CLEAR_CART,
+        payload: {
+            id: itemID,
+            qty: value,
+        },
+    };
+};

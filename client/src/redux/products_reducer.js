@@ -89,6 +89,11 @@ const productsReducer = (state = INITIAL_STATE, action) => {
             ...state,
             changeColor: true,
         };
+    } else if (action.type === actionTypes.CLEAR_CART) {
+        return {
+            ...state,
+            cart: [],
+        };
     } else {
         return state;
     }
