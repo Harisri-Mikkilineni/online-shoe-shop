@@ -10,6 +10,11 @@ main {
 h2 {
     text-align: center;
 }
+h3 {
+    text-align: center;
+    color: #5da2d5;
+    margin-top: 100px;
+}
 * {
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }

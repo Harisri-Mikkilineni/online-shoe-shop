@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Checkout = () => {
     const [userInput, setUserInput] = useState({});
+    const [showMessage, setShowMessage] = useState(false);
 
     const handlePay = (e) => {
         e.preventDefault();
@@ -24,6 +24,7 @@ const Checkout = () => {
                 console.log("user inputtt:", userInput);
                 console.log("response data from /checkout.json:", data);
                 if (data.success === true) {
+                    setShowMessage(true);
                 }
             });
     };
@@ -34,7 +35,6 @@ const Checkout = () => {
             ...userInput,
             [target.name]: target.value,
         });
-        // console.log("userInput",[target.name]: target.value,);
     };
 
     return (
@@ -44,40 +44,50 @@ const Checkout = () => {
             {/* {this.state.error && (
                 <h2 style={{ color: "red" }}>{this.state.error}</h2>
             )} */}
+            {!showMessage && (
+                <form>
+                    <input
+                        name="email"
+                        placeholder="your@email.com"
+                        type="email"
+                        onChange={handleChange}
+                    />
+                    <input
+                        name="card_number"
+                        placeholder="Card number"
+                        type="text"
+                        onChange={handleChange}
+                    />
+                    <input
+                        name="cardholder_name"
+                        placeholder="Card Holder Name"
+                        type="text"
+                        onChange={handleChange}
+                    />
+                    <input
+                        name="billing_address"
+                        placeholder="Billing Address"
+                        type="text"
+                        onChange={handleChange}
+                    />
+                    <br />
 
-            <form>
-                <input
-                    name="email"
-                    placeholder="your@email.com"
-                    type="email"
-                    onChange={handleChange}
-                />
-                <input
-                    name="card_number"
-                    placeholder="Card number"
-                    type="text"
-                    onChange={handleChange}
-                />
-                <input
-                    name="cardholder_name"
-                    placeholder="Card Holder Name"
-                    type="text"
-                    onChange={handleChange}
-                />
-                <input
-                    name="billing_address"
-                    placeholder="Billing Address"
-                    type="text"
-                    onChange={handleChange}
-                />
-                <br />
-
+                    <div>
+                        <button className="add_cart_btn" onClick={handlePay}>
+                            Pay
+                        </button>
+                    </div>
+                </form>
+            )}
+            {showMessage && (
                 <div>
-                    <button className="add_cart_btn" onClick={handlePay}>
-                        Pay
-                    </button>
+                    <h3>
+                        Your Order was successful. Products will be delivered in
+                        2-3 working days.
+                    </h3>
+                    <h3>Thank you for shopping with us!</h3>
                 </div>
-            </form>
+            )}
         </>
     );
 };

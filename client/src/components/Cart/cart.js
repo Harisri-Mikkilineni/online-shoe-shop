@@ -1,10 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
-import { Link, BrowserRouter, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/products_actions";
 import CartItems from "./cartItems.js";
-import Checkout from "../checkout.js";
 
 import { useParams, useHistory } from "react-router";
 
