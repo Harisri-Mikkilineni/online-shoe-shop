@@ -233,9 +233,8 @@ app.post("/checkout.json", (req, res) => {
         cardholderName,
         billingAddress
     );
-    db.addUsers(email, cardNumber, email, cardholderName, billingAddress)
-        .then(({ rows }) => {
-            res.json(rows[0]);
+    db.addCheckoutDetails(email, cardNumber, cardholderName, billingAddress)
+        .then(() => {
             res.json({ success: true });
         })
         .catch((err) => console.log("err in adding checkout details:", err));

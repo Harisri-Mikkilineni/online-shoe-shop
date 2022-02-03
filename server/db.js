@@ -84,9 +84,9 @@ module.exports.getAllProducts = () => {
 };
 
 module.exports.addCheckoutDetails = (
-    cardholder_name,
     email,
     card_number,
+    cardholder_name,
     billing_address
 ) => {
     const q = `INSERT INTO checkout(cardholder_name,
@@ -94,6 +94,6 @@ module.exports.addCheckoutDetails = (
     card_number,
     billing_address)
     VALUES($1, $2, $3, $4) RETURNING id`;
-    const params = [cardholder_name, email, card_number, billing_address];
+    const params = [email, card_number, cardholder_name, billing_address];
     return db.query(q, params);
 };
