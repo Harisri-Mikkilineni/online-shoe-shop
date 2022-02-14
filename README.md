@@ -13,5 +13,3 @@ React.js | Node.js | PostgreSQL | JavaScript | HTML5 | CSS3
 6. Add to cart
 7. Increase or decrease quantity
 8. Checkout page
-
-
