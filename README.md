@@ -1,10 +1,10 @@
 # online-shoe-shop
-A PERN stack E-commerce application to sell shoes online.
+**A PERN stack E-commerce application to sell shoes online.**
 
 **Technologies:**
 React.js | Node.js | PostgreSQL | JavaScript | HTML5 | CSS3
 
-Features:
+**Features:**
 1. Registration
 2. Login
 3. Reset Password
